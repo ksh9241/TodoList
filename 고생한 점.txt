@@ -1,0 +1,5 @@
+1. 세팅 시 OJDBC를 찾을 수 없어서 static dir에 jar파일 넣어줘서 해결했다.
+
+2. application.properties에서 Jpa 세팅 시 spring.jpa.database platform=org.hibernate.dialect.Oracle12cDialect
+
+3. JPA Entity를 통한 table 만들 때 Oracle 예약어 변수로 설정하는 거 주의

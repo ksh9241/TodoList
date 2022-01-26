@@ -10,6 +10,7 @@ sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
+	mavenLocal()
 }
 
 dependencies {
@@ -23,9 +24,12 @@ dependencies {
 //	testImplementation 'org.springframework.security:spring-security-test'
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	runtimeOnly 'com.oracle.database.jdbc:ojdbc6'
+//	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+	
+	implementation fileTree(include: ['*.jar'], dir: '/src/main/resources/static/lib')
 	
 	implementation 'org.projectlombok:lombok'
+	implementation group: 'com.zaxxer', name: 'HikariCP', version: '2.6.0'
 }
 
 tasks.named('test') {
