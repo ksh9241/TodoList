@@ -1,14 +1,14 @@
 package com.toy.todo.domain;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
@@ -17,36 +17,37 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "Users")
-@ToString
-public class UserVO {
+@Table(name = "Board")
+public class Board {
 	
+	// 게시판 작성 내용
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userId;
-	
+	private Long boardId;
 	@NotNull
-	private String userName;
-	
+	private String subject;
 	@NotNull
-	private String password;
-	
-	private String phoneNumber;
-	
+	private String content;
 	@NotNull
 	private LocalDateTime cretDt;
-	
 	private LocalDateTime chgDt;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User users;
+
+	// 댓글, 대댓글 기능
+	private String comments;
+	private Long commentDepth;
+	private Long commentIdx;
 	
-	private Double achievementRate;
+	// 조회수
+	private Long hit;
 	
-	@OneToMany(mappedBy = "users")
-	private List<BoardVO> boards = new ArrayList<>();
+	
 }
