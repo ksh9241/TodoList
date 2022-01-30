@@ -1,5 +1,7 @@
 package com.toy.todo.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,13 +14,21 @@ public class UserServiceImpl implements UserService{
 	UserRepository userRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return null;
+	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+		Optional<UserDTO> userEntityWrapper =  userRepository.findByUserId(userId);
+		UserDTO findUser = userEntityWrapper.orElse(null);
+		
+		System.out.println("findUser == " + findUser);
+		
+		if (findUser == null) {
+			throw new UsernameNotFoundException(userId);
+		}
+		
+		return findUser;
 	}
 
 	@Override
 	public Integer save(UserDTO userDTO) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

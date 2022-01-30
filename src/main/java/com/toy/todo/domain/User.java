@@ -30,7 +30,7 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userId;
+	private String userId;
 	
 	@NotNull
 	private String userName;
