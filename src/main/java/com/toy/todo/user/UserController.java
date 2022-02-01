@@ -1,13 +1,20 @@
 package com.toy.todo.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.toy.todo.domain.User;
+import com.toy.todo.security.UserDTO;
 
 @RestController
 //@RequestMapping(value = "/user")
@@ -17,14 +24,25 @@ public class UserController {
 	UserService userService;
 
 	@GetMapping ("/user/findByUserId")
-	public Map<String, UserDTO> findByUserId(@RequestParam("userId") String userId) {
+	public Map<String, User> findByUserId(@RequestParam String userId) {
 		System.out.println("userId == " + userId);
-		Map<String, UserDTO> map = new HashMap<>();
+		Map<String, User> map = new HashMap<>();
 		
-		//UserDTO user = (UserDTO)userService.loadUserByUsername("test");
-		UserDTO user = new UserDTO();
-		user.setUserId("test");
-		map.put("userId", user);
 		return map;
+	}
+	
+	@GetMapping("/user/findAll")
+	public Map<String, User> findAll() {
+		List<User> users = userService.findAll();
+		
+		Map<String, User> map = users.stream().collect(Collectors.toMap(User::getUserId, Function.identity()));
+		return map;
+	}
+	
+	@PostMapping("/auth/checkUser")
+	public String checkUser(@ModelAttribute UserDTO userDTO) {
+		
+		System.out.println("userDTO ========== "+userDTO);
+		return null;
 	}
 }

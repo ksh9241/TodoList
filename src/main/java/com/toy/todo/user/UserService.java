@@ -1,7 +1,11 @@
 package com.toy.todo.user;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
+import java.util.List;
 
-public interface UserService extends UserDetailsService{
-	Integer save(UserDTO userDTO);
+import com.toy.todo.domain.User;
+
+public interface UserService {
+	Integer save(User user);
+	
+	List<User> findAll();
 }

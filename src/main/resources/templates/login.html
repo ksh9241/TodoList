@@ -92,21 +92,31 @@ document.addEventListener("DOMContentLoaded", function() {
 function clickLoginBt () {
 	let loginBt = document.querySelector(".login_btn");
 	loginBt.addEventListener("click", function () {
-		console.log("들어옴");
 		
-		let xhr = new XMLHttpRequest;
-		xhr.addEventListener("load", function () {
-			if (xhr.readyState == 4 && xhr.status == 200) {
-				let result = JSON.parse(xhr.responseText);
-				console.log(result);
-			}
-		})
-		
-		let userId = "test";
-		xhr.open("GET", "../user/findByUserId?userId="+userId);
-		xhr.send();
-		
+		let loginForm = document.querySelector("#loginForm");
+		if (validation(loginForm)) {
+			console.log("들어옴");
+			loginForm.submit();		
+		};
 	})
+}
+
+function validation (loginForm) {
+	let id = loginForm.querySelector(".input_user").value;
+	let pw = loginForm.querySelector(".input_pass").value;
+	
+	if (id.trim() == '' || id == null) {
+		alert("아이디를 입력해주세요.");
+		loginForm.querySelector(".input_user").focus();
+		return;
+	} else if (pw.trim() == '' || pw == null) {
+		alert("패스워드를 입력해주세요.");
+		loginForm.querySelector(".input_pass").focus();
+		return;
+	}
+	
+	return true;
+	
 }
 </script>
 
@@ -126,18 +136,18 @@ function clickLoginBt () {
 					</div>
 				</div>
 				<div class="d-flex justify-content-center form_container">
-					<form>
+					<form action="/auth/checkUser" method="post" id="loginForm">
 						<div class="input-group mb-3">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" name="" class="form-control input_user" value="" placeholder="username">
+							<input type="text" name="userId" class="form-control input_user" value="" placeholder="username">
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="password" name="" class="form-control input_pass" value="" placeholder="password">
+							<input type="password" name="password" class="form-control input_pass" value="" placeholder="password">
 						</div>
 						<div class="form-group">
 							<div class="custom-control custom-checkbox">
