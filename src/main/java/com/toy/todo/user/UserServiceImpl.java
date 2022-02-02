@@ -30,4 +30,11 @@ public class UserServiceImpl implements UserService{
 		
 		return users;
 	}
+
+	@Override
+	public User findByUserId(String userId) {
+		Optional<User> optional = userRepository.findByUserId(userId);
+		User user = optional.orElse(null);
+		return user;
+	}
 }

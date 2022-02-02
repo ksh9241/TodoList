@@ -16,6 +16,10 @@ import com.toy.todo.domain.User;
 import com.toy.todo.user.UserContext;
 import com.toy.todo.user.UserRepository;
 
+/**
+ * UserDetailsService 는 단일 사용자로 메모리 내 사용자 저장소를 설정합니다.
+ * */
+
 @Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService{
 
@@ -26,8 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		Optional<User> user = userRepository.findByUserId(userId);
 		User findUser = user.orElse(null);
-		
-		System.out.println("findUser == " + findUser);
 		
 		if (findUser == null) {
 			throw new UsernameNotFoundException(userId);

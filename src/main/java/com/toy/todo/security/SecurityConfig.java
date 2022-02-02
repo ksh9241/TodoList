@@ -16,8 +16,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * 인증 관리자 사용자 정의
+ * */
+
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity	// 스프링 시큐리티 Config 설정이 스프링 필터체인에 등록된다.
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 /**
@@ -48,23 +52,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		
 		http.authorizeRequests()
-				.antMatchers("/auth/**").permitAll()
-//				.anyRequest().authenticated()
+				.antMatchers("/user/**").authenticated()
+				.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+				.anyRequest().permitAll()
 				;
 		
 		http.formLogin()
-			.loginPage("/auth/login")
-			.defaultSuccessUrl("/main")
+			.loginPage("/login")
+			.defaultSuccessUrl("/")
 			.permitAll();
 		
 		http.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/auth/login")
+			.logoutSuccessUrl("/login")
 			.invalidateHttpSession(true);
 		
 		// 권한이 없는 사용자가 접근했을 경우 이동할 경로 지정
 		http.exceptionHandling()
-			.accessDeniedPage("/auth/home"); 
+			.accessDeniedPage("/main"); 
 	}
 	
 	@Override

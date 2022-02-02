@@ -8,9 +8,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeContorller {
 	private ModelAndView mav = new ModelAndView();
 	
-	@GetMapping("/auth/home")
+	@GetMapping("/main")
 	public ModelAndView homePage() {
-		mav.setViewName("home");
+		mav.setViewName("main");
 		return mav;
 	}
 	
@@ -20,13 +20,13 @@ public class HomeContorller {
 		return mav;
 	}
 	
-	@GetMapping("/auth/login")
+	@GetMapping("/login")
 	public ModelAndView loginPage() {
 		mav.setViewName("login");
 		return mav;
 	}
 	
-	@GetMapping("/auth/signup")
+	@GetMapping("/signup")
 	public ModelAndView signUpPage() {
 		mav.setViewName("signup");
 		return mav;

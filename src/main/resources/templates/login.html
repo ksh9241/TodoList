@@ -95,7 +95,6 @@ function clickLoginBt () {
 		
 		let loginForm = document.querySelector("#loginForm");
 		if (validation(loginForm)) {
-			console.log("들어옴");
 			loginForm.submit();		
 		};
 	})
@@ -136,7 +135,7 @@ function validation (loginForm) {
 					</div>
 				</div>
 				<div class="d-flex justify-content-center form_container">
-					<form action="/auth/checkUser" method="post" id="loginForm">
+					<form action="/checkUser" method="post" id="loginForm">
 						<div class="input-group mb-3">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -163,7 +162,7 @@ function validation (loginForm) {
 		
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
-						<a href="/auth/signup" class="ml-2">회원가입 하기</a>
+						<a href="/signup" class="ml-2">회원가입 하기</a>
 					</div>
 					<div class="d-flex justify-content-center links">
 						<a href="#">비밀번호 찾기</a>

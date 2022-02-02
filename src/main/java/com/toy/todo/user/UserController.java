@@ -41,8 +41,9 @@ public class UserController {
 	
 	@PostMapping("/auth/checkUser")
 	public String checkUser(@ModelAttribute UserDTO userDTO) {
-		
-		System.out.println("userDTO ========== "+userDTO);
+		System.out.println("userDTO == " + userDTO);
+		User user = userService.findByUserId(userDTO.getUserId());
+		System.out.println(user);
 		return null;
 	}
 }

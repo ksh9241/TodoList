@@ -47,6 +47,8 @@ public class User {
 	
 	private Double achievementRate;
 	
+	private String auth;
+	
 	@OneToMany(mappedBy = "users")
 	private List<Board> boards = new ArrayList<>();
 }
