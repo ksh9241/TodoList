@@ -9,5 +9,6 @@ import com.toy.todo.domain.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-	Optional<User> findByUserId(String userId);
+	// JPA Query Method 문법
+	Optional<User> findByUserName(String userName);
 }

@@ -12,16 +12,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.toy.todo.domain.User;
-import com.toy.todo.security.UserDTO;
 
 @RestController
 //@RequestMapping(value = "/user")
 public class UserController {
 	
+	private ModelAndView mav; 
+	
 	@Autowired
 	UserService userService;
+	
+	@PostMapping("/join")
+	public ModelAndView join(User user) {
+		int result = userService.save(user);
+		mav = new ModelAndView();
+		mav.setViewName("redirect:/joinPage");
+		if (result > 0) {
+			mav.setViewName("redirect:/loginPage");
+		} 
+		return mav;
+	}
 
 	@GetMapping ("/user/findByUserId")
 	public Map<String, User> findByUserId(@RequestParam String userId) {
@@ -35,15 +48,7 @@ public class UserController {
 	public Map<String, User> findAll() {
 		List<User> users = userService.findAll();
 		
-		Map<String, User> map = users.stream().collect(Collectors.toMap(User::getUserId, Function.identity()));
+		Map<String, User> map = users.stream().collect(Collectors.toMap(User::getUserName, Function.identity()));
 		return map;
-	}
-	
-	@PostMapping("/auth/checkUser")
-	public String checkUser(@ModelAttribute UserDTO userDTO) {
-		System.out.println("userDTO == " + userDTO);
-		User user = userService.findByUserId(userDTO.getUserId());
-		System.out.println(user);
-		return null;
 	}
 }

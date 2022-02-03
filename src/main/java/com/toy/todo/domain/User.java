@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -30,7 +33,7 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String userId;
+	private int userId;
 	
 	@NotNull
 	private String userName;
@@ -41,13 +44,15 @@ public class User {
 	private String phoneNumber;
 	
 	@NotNull
+	@CreationTimestamp // insert 시 값을 자동으로 채워줌
 	private LocalDateTime cretDt;
 	
+	@UpdateTimestamp // Update 시 값을 자동으로 채워줌
 	private LocalDateTime chgDt;
 	
 	private Double achievementRate;
 	
-	private String auth;
+	private String role;
 	
 	@OneToMany(mappedBy = "users")
 	private List<Board> boards = new ArrayList<>();

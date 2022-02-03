@@ -18,8 +18,9 @@ import com.toy.todo.user.UserRepository;
 
 /**
  * UserDetailsService 는 단일 사용자로 메모리 내 사용자 저장소를 설정합니다.
+ * 시큐리티 설정에서 loginProcessingUrl("/login");
+ * 요청이 들어오면 자동으로 UserDetailsService 타입으로 IoC되어있는 loadUserByUsername 함수가 실행
  * */
-
 @Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService{
 
@@ -27,19 +28,18 @@ public class CustomUserDetailsService implements UserDetailsService{
 	private UserRepository userRepository;
 	
 	@Override
-	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		Optional<User> user = userRepository.findByUserId(userId);
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		Optional<User> user = userRepository.findByUserName(userName);
 		User findUser = user.orElse(null);
 		
 		if (findUser == null) {
-			throw new UsernameNotFoundException(userId);
+			throw new UsernameNotFoundException(userName);
 		}
-		List<GrantedAuthority> role = new ArrayList<>();
-		role.add(new SimpleGrantedAuthority("ROLE_USER"));
+		return new PrincipalDetails(findUser);
 		
-		UserContext userContext = new UserContext(findUser, role);
+		//UserContext userContext = new UserContext(findUser, role);
 		
-		return userContext;
+		//return userContext;
 	}
 
 }

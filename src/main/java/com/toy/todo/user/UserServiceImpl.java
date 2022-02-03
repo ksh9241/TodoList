@@ -7,21 +7,34 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.toy.todo.domain.User;
-import com.toy.todo.security.UserDTO;
 
 @Service
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Override
 	public Integer save(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			String rawPassword = user.getPassword();
+			String encPassword = passwordEncoder.encode(rawPassword);
+			
+			user.setRole("ROLE_USER");
+			user.setPassword(encPassword);
+			userRepository.save(user);
+			
+			return 1;
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -32,8 +45,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User findByUserId(String userId) {
-		Optional<User> optional = userRepository.findByUserId(userId);
+	public User findByUserName(String userName) {
+		Optional<User> optional = userRepository.findByUserName(userName);
 		User user = optional.orElse(null);
 		return user;
 	}

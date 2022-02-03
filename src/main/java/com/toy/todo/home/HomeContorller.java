@@ -20,15 +20,15 @@ public class HomeContorller {
 		return mav;
 	}
 	
-	@GetMapping("/login")
+	@GetMapping("/loginPage")
 	public ModelAndView loginPage() {
 		mav.setViewName("login");
 		return mav;
 	}
 	
-	@GetMapping("/signup")
+	@GetMapping("/joinPage")
 	public ModelAndView signUpPage() {
-		mav.setViewName("signup");
+		mav.setViewName("join");
 		return mav;
 	}
 }

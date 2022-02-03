@@ -10,7 +10,7 @@ public class UserContext extends User{
 	private final com.toy.todo.domain.User user;
 
 	public UserContext(com.toy.todo.domain.User user, Collection<? extends GrantedAuthority> authorities) {
-		super(user.getUserId(), user.getPassword(), authorities);
+		super(user.getUserName(), user.getPassword(), authorities);
 		this.user = user;
 	}
 	
