@@ -1,19 +1,14 @@
 package com.toy.todo.security;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.toy.todo.domain.User;
-import com.toy.todo.user.UserContext;
 import com.toy.todo.user.UserRepository;
 
 /**
@@ -36,10 +31,6 @@ public class CustomUserDetailsService implements UserDetailsService{
 			throw new UsernameNotFoundException(userName);
 		}
 		return new PrincipalDetails(findUser);
-		
-		//UserContext userContext = new UserContext(findUser, role);
-		
-		//return userContext;
 	}
 
 }

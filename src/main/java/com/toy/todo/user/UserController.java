@@ -7,6 +7,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +46,8 @@ public class UserController {
 		return map;
 	}
 	
+	@Secured("ROLE_ADMIN")	// 특정 메서드에 호출 권한을 주고싶을 때
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")	// 권한 설정이 복수일 경우 @PreAuthorize 어노테이션을 활용한다.
 	@GetMapping("/user/findAll")
 	public Map<String, User> findAll() {
 		List<User> users = userService.findAll();

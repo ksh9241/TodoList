@@ -16,7 +16,7 @@ public class HomeContorller {
 	
 	@GetMapping("/")
 	public ModelAndView mainPage() {
-		mav.setViewName("main");
+		mav.setViewName("/layout/layout");
 		return mav;
 	}
 	

@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/login")
+			.logoutSuccessUrl("/loginPage")
 			.invalidateHttpSession(true);
 		
 		// 권한이 없는 사용자가 접근했을 경우 이동할 경로 지정

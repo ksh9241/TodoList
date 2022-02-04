@@ -3,3 +3,5 @@
 2. application.properties에서 Jpa 세팅 시 spring.jpa.database platform=org.hibernate.dialect.Oracle12cDialect
 
 3. JPA Entity를 통한 table 만들 때 Oracle 예약어 변수로 설정하는 거 주의
+
+4. Security 오브젝트 사용 의미 확인하기.
