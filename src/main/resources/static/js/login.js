@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
 })
 
 function clickLoginBt () {
-	let loginBt = document.querySelector(".login_btn");
+	let loginBt = document.querySelector("#login-btn");
 	loginBt.addEventListener("click", function () {
 		
 		let loginForm = document.querySelector("#loginForm");

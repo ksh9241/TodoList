@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <!-- Head -->
 <head th:fragment="headFragment">
@@ -23,9 +24,11 @@
 <!-- Custom styles for this template-->
 <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
-<!-- Custom Css -->
+<script type="text/javascript" src="js/custom-top.js"></script>
 
-<!-- Custom Js -->
+<!-- Custom -->
+<th:block layout:fragment="css"></th:block>
+<th:block layout:fragment="script"></th:block>
    
 
 </head>

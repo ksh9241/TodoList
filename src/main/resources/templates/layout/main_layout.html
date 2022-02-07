@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <!-- 공통 헤드-->
+    <head th:replace="/layout/fragments/head :: headFragment"></head>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <!-- 사이드바-->
+            <sidebar th:replace="/layout/fragments/sidebar :: sidebarFragment" class="layout_sidebar"></sidebar>
+
+			<div id="content-wrapper" class="d-flex flex-column">
+				
+				<div id="content">
+					<!-- 상단바-->
+					<top th:replace="/layout/fragments/top :: topbarFragment"
+					class="layout_top"></top>
+					
+					<!-- 본문-->
+				<th:block layout:fragment="content" class="container-fluid">
+				.. 메인 컨텐츠 자리.. 
+				</th:block>
+					
+				</div>
+				<!-- 공통 하단-->
+				<footer th:replace="/layout/fragments/footer :: footerFragment" class="sticky-footer bg-white"></footer>
+			</div>
+        </div>
+        
+        <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    </body>
+</html>
