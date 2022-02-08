@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.formLogin()
 			.loginPage("/loginPage")
-			.usernameParameter("userName") // login 시 인풋 데이터 name값을 변경할 때 사용
+			.usernameParameter("userId") // login 시 인풋 데이터 name값을 변경할 때 사용
 			.loginProcessingUrl("/login") // /login 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행해준다.
 			.defaultSuccessUrl("/")
 			.permitAll();

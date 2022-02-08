@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,5 +55,14 @@ public class UserController {
 		
 		Map<String, User> map = users.stream().collect(Collectors.toMap(User::getUserName, Function.identity()));
 		return map;
+	}
+	
+	@PostMapping ("/user/findByUserName")
+	public List<User> findByUserName(@RequestBody String username) {
+		System.out.println("username == " + username);
+		List<User> findUsers = userService.findByUserNameContaining(username);
+		System.out.println(findUsers);
+		
+		return null;
 	}
 }

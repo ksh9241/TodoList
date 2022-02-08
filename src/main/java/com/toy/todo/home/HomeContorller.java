@@ -25,8 +25,8 @@ public class HomeContorller {
 	
 	@GetMapping("/")
 	public ModelAndView mainPage(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		String userName = principalDetails.getUsername();
-		User user = userService.findByUserName(userName);
+		String userId = principalDetails.getUsername();
+		User user = userService.findByUserId(userId);
 		
 		mav.addObject("findUser", user);
 		mav.setViewName("/layout/main_layout");

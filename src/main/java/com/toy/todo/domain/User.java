@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -33,7 +35,11 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int userId;
+	private int idx;
+	
+	@NotNull
+	@Column(unique=true)
+	private String userId;
 	
 	@NotNull
 	private String userName;
@@ -50,6 +56,7 @@ public class User {
 	@UpdateTimestamp // Update 시 값을 자동으로 채워줌
 	private LocalDateTime chgDt;
 	
+	@ColumnDefault("0")
 	private Double achievementRate;
 	
 	private String role;

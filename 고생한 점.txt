@@ -5,3 +5,10 @@
 3. JPA Entity를 통한 table 만들 때 Oracle 예약어 변수로 설정하는 거 주의
 
 4. Security 오브젝트 사용 의미 확인하기.
+
+5. JPA Like 사용 방법 숙지
+
+
+-- 할일
+Join 페이지 완성 후 회원가입 (BcryptEncoding 문제로 DB더미데이터로 로그인 불가)
+main -> Search Async 데이터 읽어오는거 확인

@@ -45,9 +45,15 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User findByUserName(String userName) {
-		Optional<User> optional = userRepository.findByUserName(userName);
+	public User findByUserId(String userId) {
+		Optional<User> optional = userRepository.findByUserId(userId);
 		User user = optional.orElse(null);
 		return user;
+	}
+
+	@Override
+	public List<User> findByUserNameContaining(String userName) {
+		List<User> users = userRepository.findByUserNameContaining(userName);
+		return users;
 	}
 }

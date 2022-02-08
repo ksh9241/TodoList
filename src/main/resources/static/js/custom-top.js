@@ -11,6 +11,13 @@ function asyncSelectUser() {
 }
 
 function xmlHttpRequest(str) {
-	let xhr = XMLHttpRequest();
-		
+	let xhr = new XMLHttpRequest();
+	xhr.addEventListener("load", (e) => {
+		if (this.status == 200 && this.readyState == 4) {
+			console.log(e);
+		}
+	})
+	
+	xhr.open("POST", "/user/findByUserName");
+	xhr.send(str);
 }
