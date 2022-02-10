@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +40,6 @@ public class UserController {
 
 	@GetMapping ("/user/findByUserId")
 	public Map<String, User> findByUserId(@RequestParam String userId) {
-		System.out.println("userId == " + userId);
 		Map<String, User> map = new HashMap<>();
 		
 		return map;
@@ -64,5 +62,19 @@ public class UserController {
 		System.out.println(findUsers);
 		
 		return null;
+	}
+	
+	@GetMapping ("/checkUserId")
+	public Map<String, Boolean> checkUserId(@RequestParam String userId) {
+		
+		User checkUser = userService.findByUserId(userId);
+		Map<String, Boolean> result = new HashMap<>();
+		if (checkUser == null) {
+			result.put("result", true);
+		} 
+		else {
+			result.put("result", false);
+		}
+		return result;
 	}
 }

@@ -38,21 +38,21 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user" action="/join" method="POST">
+                            <form class="user" action="/join" method="POST" id="joinForm">
                             	<div class="form-group row">
                                     <div class="col-sm-8">
-	                                    <input type="email" class="form-control form-control-user" id="userId"
+	                                    <input type="text" class="form-control form-control-user" id="userId" name="userId"
 	                                        placeholder="UserId">
                                 	</div>
                                     <div class="col-sm-4">
-                                        <button class="btn btn-primary btn-user btn-block" style="font-size: 0.5em">Check Duplication</button>
+                                        <button class="btn btn-primary btn-user btn-block" id="check-btn" style="font-size: 0.5em" type="button">Check Duplication</button>
                                     </div>
                                 </div>
                                 
                                 
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="password"
+                                        <input type="password" class="form-control form-control-user" id="password" name="password"
                                             placeholder="Password">
                                     </div>
                                     <div class="col-sm-6">
@@ -64,14 +64,14 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user"
-                                            id="userName" placeholder="UserName">
+                                            id="userName" name="userName" placeholder="UserName">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user"
-                                            id="phoneNumber" placeholder="Phone Number">
+                                            id="phoneNumber" name="phoneNumber" placeholder="Phone Number">
                                     </div>
                                 </div>
-                                <button class="btn btn-primary btn-user btn-block" id="joinBtn">
+                                <button class="btn btn-primary btn-user btn-block" id="joinBtn" type="button">
                                     Register Account
                                 </button>
                                 <hr>

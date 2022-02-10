@@ -41,7 +41,7 @@ public class PrincipalDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return user.getUserName();
+		return user.getUserId();
 	}
 
 	// 계정 만료됐니?

@@ -29,7 +29,7 @@ public class HomeContorller {
 		User user = userService.findByUserId(userId);
 		
 		mav.addObject("findUser", user);
-		mav.setViewName("/layout/main_layout");
+		mav.setViewName("layout/main_layout");
 		return mav;
 	}
 	
