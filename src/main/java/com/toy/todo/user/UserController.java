@@ -31,10 +31,16 @@ public class UserController {
 	public ModelAndView join(User user) {
 		int result = userService.save(user);
 		mav = new ModelAndView();
-		mav.setViewName("redirect:/joinPage");
+		
 		if (result > 0) {
-			mav.setViewName("redirect:/loginPage");
+			mav.addObject("msg", "회원가입에 성공하였습니다.");
+			mav.addObject("url", "/loginPage");
 		} 
+		else {
+			mav.addObject("msg", "회원가입에 실패하였습니다.");
+			mav.addObject("url", "/joinPage");
+		}
+		mav.setViewName("/message");
 		return mav;
 	}
 
@@ -55,13 +61,12 @@ public class UserController {
 		return map;
 	}
 	
-	@PostMapping ("/user/findByUserName")
-	public List<User> findByUserName(@RequestBody String username) {
-		System.out.println("username == " + username);
-		List<User> findUsers = userService.findByUserNameContaining(username);
+	@PostMapping ("/user/searchUsers")
+	public List<User> searchUsers(@RequestBody String userId) {
+		List<User> findUsers = userService.findByUserIdContaining(userId);
 		System.out.println(findUsers);
 		
-		return null;
+		return findUsers;
 	}
 	
 	@GetMapping ("/checkUserId")

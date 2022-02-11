@@ -23,5 +23,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	// JPA Query Method 문법
 	Optional<User> findByUserId(String userId);
 	
-	List<User> findByUserNameContaining(@Param("username") String userName);
+	List<User> findByUserIdContaining(@Param("userId") String userId);
 }

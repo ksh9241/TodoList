@@ -20,7 +20,7 @@ function checkUserId() {
 		
 		let xhr = new XMLHttpRequest();
 		xhr.addEventListener("load", function() {
-			if (this.status == 200 && this.readyState == 4) {
+			if (xhr.status == 200 && xhr.readyState == 4) {
 				let data = JSON.parse(xhr.responseText);
 				if (data.result) {
 					useId();
