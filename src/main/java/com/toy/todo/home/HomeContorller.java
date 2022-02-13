@@ -1,5 +1,7 @@
 package com.toy.todo.home;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,15 +19,19 @@ public class HomeContorller {
 	@Autowired
 	private UserService userService;
 	
+	// 테스트용
 	@GetMapping("/main")
 	public ModelAndView homePage() {
-		mav.setViewName("main");
+		mav.setViewName("test");
 		return mav;
 	}
 	
-	@GetMapping("/")
+	// 메인페이지
+	@GetMapping("/auth")
 	public ModelAndView mainPage(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		
 		String userId = principalDetails.getUsername();
+		
 		User user = userService.findByUserId(userId);
 		
 		mav.addObject("findUser", user);

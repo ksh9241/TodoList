@@ -27,6 +27,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	// 회원가입
 	@PostMapping("/join")
 	public ModelAndView join(User user) {
 		int result = userService.save(user);
@@ -43,7 +44,26 @@ public class UserController {
 		mav.setViewName("/message");
 		return mav;
 	}
+	
+	// 회원가입 시 아이디 중복체크
+		@GetMapping ("/checkUserId")
+		public Map<String, Boolean> checkUserId(@RequestParam String userId) {
+			
+			User checkUser = userService.findByUserId(userId);
+			Map<String, Boolean> result = new HashMap<>();
+			if (checkUser == null) {
+				result.put("result", true);
+			} 
+			else {
+				result.put("result", false);
+			}
+			return result;
+		}
 
+		
+	/**
+	 * 로그인 인증 이후 접근 가능 uri
+	 * */
 	@GetMapping ("/user/findByUserId")
 	public Map<String, User> findByUserId(@RequestParam String userId) {
 		Map<String, User> map = new HashMap<>();
@@ -67,19 +87,5 @@ public class UserController {
 		System.out.println(findUsers);
 		
 		return findUsers;
-	}
-	
-	@GetMapping ("/checkUserId")
-	public Map<String, Boolean> checkUserId(@RequestParam String userId) {
-		
-		User checkUser = userService.findByUserId(userId);
-		Map<String, Boolean> result = new HashMap<>();
-		if (checkUser == null) {
-			result.put("result", true);
-		} 
-		else {
-			result.put("result", false);
-		}
-		return result;
 	}
 }

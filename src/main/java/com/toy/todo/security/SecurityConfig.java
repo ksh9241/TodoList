@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.authorizeRequests()
 				.antMatchers("/user/**").authenticated()
+				.antMatchers("/auth/**").authenticated()
 				.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 				.anyRequest().permitAll()
 				;
@@ -61,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.loginPage("/loginPage")
 			.usernameParameter("userId") // login 시 인풋 데이터 name값을 변경할 때 사용
 			.loginProcessingUrl("/login") // /login 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행해준다.
-			.defaultSuccessUrl("/")
+			.defaultSuccessUrl("/auth")
 			.permitAll();
 		
 		http.logout()
