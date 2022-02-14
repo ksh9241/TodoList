@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 	clickLoginBt();
+	enterLogin();
 })
 
 function clickLoginBt () {
@@ -28,4 +29,16 @@ function validation (loginForm) {
 	}
 	
 	return true;
+}
+
+function enterLogin () {
+	let passwordText = document.querySelector(".input_pass");
+	
+	passwordText.addEventListener("keyup", function(e) {
+		if (e.keyCode == 13) {
+			if (validation(loginForm)) {
+				loginForm.submit();		
+			};
+		}
+	})
 }

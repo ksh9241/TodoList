@@ -84,7 +84,6 @@ public class UserController {
 	@PostMapping ("/user/searchUsers")
 	public List<User> searchUsers(@RequestBody String userId) {
 		List<User> findUsers = userService.findByUserIdContaining(userId);
-		System.out.println(findUsers);
 		
 		return findUsers;
 	}

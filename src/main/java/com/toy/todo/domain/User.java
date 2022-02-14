@@ -61,6 +61,9 @@ public class User {
 	
 	private String role;
 	
-	@OneToMany(mappedBy = "users")
+	@OneToMany(mappedBy = "user")
 	private List<Board> boards = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user")
+	private List<TodoList> todoList = new ArrayList<>();
 }

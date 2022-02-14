@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService{
 			
 			user.setRole("ROLE_USER");
 			user.setPassword(encPassword);
+			user.setAchievementRate(0d);
 			userRepository.save(user);
 			
 			return 1;

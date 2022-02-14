@@ -23,31 +23,26 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "Board")
-public class Board {
-	
-	// 게시판 작성 내용
+@Table(name = "todolist")
+public class TodoList {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long boardId;
+	private Long TodoIdx;
+	
 	@NotNull
-	private String subject;
-	@NotNull
-	private String content;
+	private String TodoContent;
+	
 	@NotNull
 	private LocalDateTime cretDt;
+	
 	private LocalDateTime chgDt;
+	
+	private String successYn;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private User user;
-
-	// 댓글, 대댓글 기능
-	private String comments;
-	private Long commentDepth;
-	private Long commentIdx;
-	
-	// 조회수
-	private Long hit;
+	private User user; 
 	
 	
 }
