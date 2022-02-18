@@ -1,0 +1,61 @@
+/* 메인 페이지 decorator 완료 시 따로 가져갈 css */
+.calendalContent {
+	padding: 0px;
+	margin: 0px;
+	background-color: #F6F6F6;
+	font-family : 'Raleway';
+	width:15%;
+	height:10%;
+}
+.calendalContent button {
+	font-family : 'Raleway';
+	border:'none';
+	!height: 32px;
+}
+.calendalHead {
+	display: flex; 
+	justify-content: space-around; /*아이템들을 일정한 간격으로 벌려 배치합니다.*/ 
+	align-items: center; 
+	padding-bottom: 12px; 
+	margin: 3px 12px 3px 12px; 
+	border-bottom: 2px solid #aaaaaa;
+}
+.calendalTitle {
+	display: flex; 
+	flex-direction: column; 
+	align-items: center; 
+	justify-content: center;
+}
+.calendalMain {
+	display : flex;
+	flex-direction : column;
+	margin : 3px 12px 0px 12px;
+	
+}
+.calendalDaies {
+	display : flex;
+	flex-wrap : wrap;
+	width : 100%;
+}
+.calendarDates {
+	display : flex;
+	flex-wrap :wrap;
+	width: 100%;
+}
+.calendalDate, .calendalDay {
+	text-align : center;
+	width : calc(100%/7);
+	padding: 4px 0px 4px 0px;
+	box-sizing : border-box;
+}
+.calendalDate:nth-child(7n) , .calendalDay:nth-child(7n) {
+	color : blue;
+	background-color: #FFE2E2;
+}
+.calendalDate:nth-child(7n + 1) , .calendalDay:nth-child(7n + 1) {
+	color : red;
+	background-color: #FFC7C7;
+}
+.today {
+	border: 2px solid #EFBBCF !important;
+}

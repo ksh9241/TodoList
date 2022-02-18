@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -34,6 +36,7 @@ public class TodoList {
 	private String TodoContent;
 	
 	@NotNull
+	@CreationTimestamp // insert 시 값을 자동으로 채워줌
 	private LocalDateTime cretDt;
 	
 	private LocalDateTime chgDt;

@@ -8,6 +8,8 @@
 
 5. JPA Like 사용 방법 숙지
 
+6. JPA QueryMethod 이해
+
 
 -- 할일
 

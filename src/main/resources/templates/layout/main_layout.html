@@ -1,150 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-		
-	<script type="text/javascript">
-		/* 메인 페이지 decorator 완료 시 따로 가져갈 스크립트 */
-		document.addEventListener("DOMContentLoaded", function() {
-			openCalendar();
-			
-		})
-		
-		function openCalendar() {
-			let calendar = document.querySelector(".calendar");
-			calendar.addEventListener("click", ()=>{
-				let calendal = document.querySelector("#calendal").innerText;
-				document.querySelector(".mainHeader").innerHTML += calendal;
-				buildCalendal();
-			})
-		}
-		
-		function buildCalendal() {
-			let date = new Date();
-			let cDate = new Date();
-			let year = date.getFullYear();
-			let month = date.getMonth() + 1 > 10 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
-			
-			let p = new Date(year, date.getMonth(), 0); // 저번달 마지막날
-			let f = new Date(year, date.getMonth(), 1); // 이번달 첫날
-			let l = new Date(year, date.getMonth() + 1, 0); // 이번달 마지막날
-			
-			let dates = [];
-			if (f.getDay() != 0) {
-				for (let i = 0; i < f.getDay(); i++) {
-					dates.unshift(p.getDate() - i);
-				}
-			}
-			
-			for (let i = 1; i <= l.getDate(); i++) {
-				dates.push(i);
-			}
-			
-			for (let i = 1; i <= 13 - l.getDay(); i++) {
-				dates.push(i);
-			}
-			
-			let htmlDates = '';
-			for (let i = 0; i < 42; i++) {
-				if (date.getDate() == dates[i] && date.getMonth() == cDate.getMonth() && date.getFullYear() == cDate.getFullYear()) {
-					htmlDates += `<div class="calendalDate today">${dates[i]}</div>`
-				}
-				else {
-					htmlDates += `<div class="calendalDate">${dates[i]}</div>`
-				}
-			}
-			
-			document.querySelector(".calendarDates").innerHTML = htmlDates;
-		}
-	</script>
 	
-	<style type="text/css">
-		/* 메인 페이지 decorator 완료 시 따로 가져갈 css */
-		.calendalContent {
-			padding: 0px;
-			margin: 0px;
-			background-color: #F6F6F6;
-			font-family : 'Raleway';
-			width:15%;
-			height:10%;
-		}
-		.calendalContent button {
-			font-family : 'Raleway';
-			border:'none';
-			!height: 32px;
-		}
-		.calendalHead {
-			display: flex; 
-			justify-content: space-around; /*아이템들을 일정한 간격으로 벌려 배치합니다.*/ 
-			align-items: center; 
-			padding-bottom: 12px; 
-			margin: 3px 12px 3px 12px; 
-			border-bottom: 2px solid #aaaaaa;
-		}
-		.calendalTitle {
-			display: flex; 
-			flex-direction: column; 
-			align-items: center; 
-			justify-content: center;
-		}
-		.calendalMain {
-			display : flex;
-			flex-direction : column;
-			margin : 3px 12px 0px 12px;
-		}
-		.calendalDaies {
-			display : flex;
-			flex-wrap : wrap;
-			width : 100%;
-		}
-		.calendarDates {
-			display : flex;
-			flex-wrap :wrap;
-			width: 100%;
-		}
-		.calendalDate, .calendalDay {
-			text-align : center;
-			width : calc(100%/7);
-			padding: 4px 0px 4px 0px;
-			box-sizing : border-box;
-		}
-		.calendalDate:nth-child(7n) , .calendalDay:nth-child(7n) {
-			color : blue;
-			background-color: #FFE2E2;
-		}
-		.calendalDate:nth-child(7n + 1) , .calendalDay:nth-child(7n + 1) {
-			color : red;
-			background-color: #FFC7C7;
-		}
-		.today {
-			border: 2px solid #EFBBCF !important;
-		}		
-	</style>
 	
-	<script type="rv-template" id="calendal">
-		<div class="calendalContent">
-			<div class="calendalHead">
-				<button class="prevBtn">&lt</button>
-				<div class="calendalTitle">
-					<div class="yearMonthTitle">2022.02</div>
-				</div>
-				<button class="nextBtn">&gt</button>
-			</div>
-							
-			<div class="calendalMain">
-				<div class="calendalDaies">
-					<div class="calendalDay">일</div>
-					<div class="calendalDay">월</div>
-					<div class="calendalDay">화</div>
-					<div class="calendalDay">수</div>
-					<div class="calendalDay">목</div>
-					<div class="calendalDay">금</div>
-					<div class="calendalDay">토</div>
-				</div>
-				<div class="calendarDates"></div>
-			</div>
-		</div>
-	</script>
-
+		
+	<script type="text/javascript" src="js/main.js"></script>
+	<link href="css/main.css" rel="stylesheet" type="text/css">
+	
     <!-- 공통 헤드-->
     <head th:replace="/layout/fragments/head :: headFragment"></head>
 
@@ -163,8 +25,10 @@
 					<!-- 본문-->
 				<th:block layout:fragment="content" class="container-fluid">
 					<div class="mainHeader" style="margin-top:10px;height:10%;margin-bottom:10px;">
-						<button type="button" class="btn btn-success" style="float:right;margin-right:20px;">New Todo</button>
-						<span type="button" style="float:right; margin-right:15%;"><i style="font-size:x-large;" class="far fa-calendar-alt calendar"></i></span>
+						<button type="button" id="newTodo" class="btn btn-success" style="float:right;margin-right:20px;">New Todo</button>
+						<span type="button" style="float:right; margin-right:15%;">
+							<i style="font-size:x-large;" class="far fa-calendar-alt calendar"></i>
+						</span>
 						<span style="float:right;margin-right:15%;">일일 달성률 : <b style="color:red;">0%</b></span>
 					</div>
 					
@@ -212,4 +76,29 @@
         <i class="fas fa-angle-up"></i>
     </a>
     </body>
+    
+    <script type="rv-template" id="calendal">
+		<div class="calendalContent">
+			<div class="calendalHead">
+				<button class="prevBtn">&lt</button>
+				<div class="calendalTitle">
+					<div class="yearMonthTitle">2022.02</div>
+				</div>
+				<button class="nextBtn">&gt</button>
+			</div>
+							
+			<div class="calendalMain">
+				<div class="calendalDaies">
+					<div class="calendalDay">일</div>
+					<div class="calendalDay">월</div>
+					<div class="calendalDay">화</div>
+					<div class="calendalDay">수</div>
+					<div class="calendalDay">목</div>
+					<div class="calendalDay">금</div>
+					<div class="calendalDay">토</div>
+				</div>
+				<div class="calendarDates"></div>
+			</div>
+		</div>
+	</script>
 </html>
