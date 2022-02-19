@@ -34,9 +34,10 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 	@Override
-	public List<TodoList> findByUserId(String userId) {
-		List<TodoList> list = todoRepository.findAllByUserId(userId);
-		return null;
+	public List<TodoList> findAllByUserIdx(int userIdx) {
+		List<TodoList> list = todoRepository.findAllByUserIdx(userIdx);
+		System.out.println(list);
+		return list;
 	}
 
 }

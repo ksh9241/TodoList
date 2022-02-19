@@ -10,17 +10,33 @@
 
 6. JPA QueryMethod 이해
 
+7. MultipleBagFetchException
+JPA Fetch Join 조건
+- ToOne 은 몇개든 사용가능
+- ToMany는 1개만 사용가능
+N + 1 문제 발생
+부모 엔티티 당 자식 엔티티의 쿼리를 모두 조회해서 stackoverflow 발생
+(부모수 * 자식쿼리 수)
+
+: spring.jpa.properties.hibernate.default_batch_fetch_size=1000
+옵션 추가 시 자식 쿼리 조건절에 모든 부모 pk값 in 으로 처리
+(조회해야 할 쿼리가 부모수/자식쿼리수 로 줄어듦.)
+
+8. JPA N:1 스택 오버플로우 발생
+lombok, toString 사용 지양
 
 -- 할일
 
 ★ thymeleaf decorator 안먹는 거 해결해야함...
 
 메인에 헤더 부분에 투두리스트 추가 버튼 및 기능, 달력 만들고 달력 별 todoList 조회, 그날 달성률 보이기 (successYn[Y] / todayList)
-메인 푸터부분 페이징 처리
 
 JPA row_number 처리 및 order by 처리
 
-아이디 저장 기능 구현
+페이징 오브젝트 통해서 between 처리 및 페이지사이즈 받아서
+main 페이지 페이징 처리
+
+아이디 저장 기능 구현 ( 
 고객 조회 시 조회된 고객의 todoList 조회 (이떄 자기자신이 아니면 successYn 버튼 disabled처리 )
 
 

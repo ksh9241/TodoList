@@ -8,6 +8,6 @@ public interface TodoService {
 
 	int save(TodoList todo);
 	
-	List<TodoList> findByUserId(String userId);
+	List<TodoList> findAllByUserIdx(int userIdx);
 
 }

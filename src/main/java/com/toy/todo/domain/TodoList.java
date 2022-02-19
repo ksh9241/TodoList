@@ -16,9 +16,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -26,14 +28,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "todolist")
+//@EqualsAndHashCode(callSuper = false, exclude = {"user"})
 public class TodoList {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long TodoIdx;
+	private Long todoIdx;
 	
 	@NotNull
-	private String TodoContent;
+	private String todoContent;
 	
 	@NotNull
 	@CreationTimestamp // insert 시 값을 자동으로 채워줌
@@ -44,7 +47,7 @@ public class TodoList {
 	private String successYn;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_idx")
 	private User user; 
 	
 	

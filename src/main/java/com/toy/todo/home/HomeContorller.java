@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,16 +34,15 @@ public class HomeContorller {
 	
 	// 메인페이지
 	@GetMapping("/auth")
-	public ModelAndView mainPage(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+	public ModelAndView mainPage(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam(defaultValue = "1")String pageNum) {
 		
 		String userId = principalDetails.getUsername();
 		
 		User user = userService.findByUserId(userId);
 		
-		List<TodoList> todo = todoService.findByUserId(user.getUserId()); 
-		
+		List<TodoList> todo = todoService.findAllByUserIdx(user.getIdx());
 		mav.addObject("findUser", user);
-		mav.addObject("todoList", null);
+		mav.addObject("todoList", todo);
 		mav.setViewName("layout/main_layout");
 		return mav;
 	}

@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +32,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @Table(name = "Users")
-@ToString
 public class User {
 	
 	@Id
@@ -61,6 +62,9 @@ public class User {
 	
 	private String role;
 	
+	/**
+	 * cascade = ALL : Entity의 상태 변화가 있다면 연관관계 엔티티도 상태 변화를 전이시키는 옵션이다.
+	 * */
 	@OneToMany(mappedBy = "user")
 	private List<Board> boards = new ArrayList<>();
 	

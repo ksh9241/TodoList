@@ -48,9 +48,9 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>오늘할일 작성하기</td>
+								<tr th:each="todo : ${todoList}">
+									<td th:text="${todo.todoIdx}">1</td>
+									<td th:text="${todo.todoContent}">오늘할일 작성하기</td>
 									<td>
 										<button type="button" class="btn btn-outline-primary">성공</button>									
 										<button type="button" class="btn btn-outline-danger">실패</button>									

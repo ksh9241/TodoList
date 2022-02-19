@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "Board")
+//@EqualsAndHashCode(callSuper = false, exclude = {"user"})
 public class Board {
 	
 	// 게시판 작성 내용
@@ -38,7 +40,7 @@ public class Board {
 	private LocalDateTime cretDt;
 	private LocalDateTime chgDt;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_idx")
 	private User user;
 
 	// 댓글, 대댓글 기능
