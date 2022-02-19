@@ -42,13 +42,17 @@ function searchUsersAddViewList(data) {
 			let li = document.createElement("li");
 			let spanId = document.createElement("span");
 			let spanName = document.createElement("span");
+			let ipnutUserIdx = document.createElement("input");
+			ipnutUserIdx.setAttribute("type","hidden");
 			
 			spanId.innerText = data[i].userId;
 			spanName.innerText = data[i].userName;
 			spanName.setAttribute("style", "float:right;")
+			ipnutUserIdx.innerText = data[i].idx;
 			
 			li.append(spanId);
 			li.append(spanName);
+			li.append(ipnutUserIdx);
 			
 			ul.append(li);
 		}
@@ -90,7 +94,8 @@ function searchUsersMouseEvent() {
 		
 		liList[i].addEventListener("mousedown", function(e) {
 			document.querySelector(".searchUsersList ul").style.display = "none";
-			document.getElementById("user-search-bar").value = e.target.firstChild.innerText;
+			document.getElementById("user-search-bar").value = e.target.closest("li").firstChild.innerText;
+			document.querySelector("#userIdx").value = e.target.closest("li").lastChild.innerText;
 		})
 	}
 }

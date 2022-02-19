@@ -1,10 +1,16 @@
 package com.toy.todo.todolist;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,5 +49,18 @@ public class TodoController {
 		String resultMsg = result > 0 ? "success" : "failed";
 		
 		return resultMsg;
+	}
+	
+	@GetMapping("/auth/{userIdx}")
+	public Map<String, List<TodoListDTO>> findTodoListByUserId(@PathVariable String userIdx
+			, @RequestParam(defaultValue = "1") String pageNum) {
+		TodoListDTO todoListDto = new TodoListDTO(Integer.parseInt(pageNum));
+		todoListDto.getUser().setIdx(Long.parseLong(userIdx));
+		
+		List<TodoListDTO> resultList = todoService.findAllByUserIdx(todoListDto);
+		
+		Map<String, List<TodoListDTO>> map = new HashMap<>();
+		map.put("todoList", resultList);
+		return map;
 	}
 }

@@ -24,6 +24,8 @@
 					
 					<!-- 본문-->
 				<th:block layout:fragment="content" class="container-fluid">
+				<input type="text" name="userIdx" id="userIdx" th:value="${findUser.idx}">
+				
 					<div class="mainHeader" style="margin-top:10px;height:10%;margin-bottom:10px;">
 						<button type="button" id="newTodo" class="btn btn-success" style="float:right;margin-right:20px;">New Todo</button>
 						<span type="button" style="float:right; margin-right:15%;">

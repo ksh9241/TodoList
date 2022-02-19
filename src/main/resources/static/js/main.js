@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 	openCalendar();
 	newTodoList();
+	findAllTodoList();
 })
 
 function newTodoList() {
@@ -11,7 +12,17 @@ function newTodoList() {
 }
 
 function findAllTodoList() {
+	let userIdx = document.querySelector("#userIdx").value;
 	
+	let xhr = new XMLHttpRequest();
+	xhr.addEventListener("load", function(e) {
+		if (xhr.status == 200 & xhr.readyState == 4) {
+			console.log(e);
+		}
+	})
+	
+	xhr.open("GET", "/auth/"+userIdx);
+	xhr.send();
 }
 
 

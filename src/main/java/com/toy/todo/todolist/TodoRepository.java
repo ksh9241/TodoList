@@ -12,6 +12,7 @@ import com.toy.todo.domain.TodoList;
 @Repository
 public interface TodoRepository extends JpaRepository<TodoList, Long>{
 
-	List<TodoList> findAllByUserIdx(int userIdx);
+	//@Query("")
+	List<TodoList> findAllByUserIdx(TodoListDTO todoDto);
 	
 }

@@ -4,10 +4,9 @@ import java.util.List;
 
 import com.toy.todo.domain.TodoList;
 
-public interface TodoService {
-
+public interface TodoService{
 	int save(TodoList todo);
 	
-	List<TodoList> findAllByUserIdx(int userIdx);
+	List<TodoListDTO> findAllByUserIdx(TodoListDTO todoDto);
 
 }
