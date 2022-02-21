@@ -1,16 +1,17 @@
 package com.toy.todo.todolist;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,15 +53,15 @@ public class TodoController {
 	}
 	
 	@GetMapping("/auth/{userIdx}")
-	public Map<String, List<TodoListDTO>> findTodoListByUserId(@PathVariable String userIdx
-			, @RequestParam(defaultValue = "1") String pageNum) {
-		TodoListDTO todoListDto = new TodoListDTO(Integer.parseInt(pageNum));
-		todoListDto.getUser().setIdx(Long.parseLong(userIdx));
+	public Map<String, Page<TodoList>> findTodoListByUserId(@PathVariable String userIdx
+			, @PageableDefault(page = 0, size = 5) Pageable pageable ) {
 		
-		List<TodoListDTO> resultList = todoService.findAllByUserIdx(todoListDto);
+		Page<TodoList> list = todoService.findAllByUserIdx(Long.parseLong(userIdx), pageable);
 		
-		Map<String, List<TodoListDTO>> map = new HashMap<>();
-		map.put("todoList", resultList);
+		System.out.println("size === "+list.getTotalElements());
+		
+		Map<String, Page<TodoList>> map = new HashMap<>();
+		map.put("todoList", list);
 		return map;
 	}
 }

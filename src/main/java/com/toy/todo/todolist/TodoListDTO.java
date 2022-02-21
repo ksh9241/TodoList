@@ -5,9 +5,7 @@ import java.time.LocalDateTime;
 import com.toy.todo.common.Paging;
 import com.toy.todo.domain.User;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -20,9 +18,5 @@ public class TodoListDTO extends Paging{
 	private LocalDateTime chgDt;
 	private String successYn;
 	private User user;
-	
-	public TodoListDTO(int pageVal) {
-		super(pageVal);
-	}
 
 }

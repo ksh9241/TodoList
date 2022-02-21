@@ -13,7 +13,8 @@ public class Paging {
 	// totalPageSize
 	private int pageLen;
 	
-	public Paging(int pageVal) {
+	
+	public void setpageVal(int pageVal) {
 		endNum = pageVal * PAGE_SIZE;
 		startNum = endNum - (PAGE_SIZE - 1);
 		this.pageVal = pageVal;

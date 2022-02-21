@@ -1,34 +1,53 @@
 package com.toy.todo.todolist;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.toy.todo.common.GenericMapper;
 import com.toy.todo.domain.TodoList;
 
-@Mapper(componentModel = "String")
+@Mapper
 public interface TodoMapper extends GenericMapper<TodoListDTO, TodoList>{
 
-	@Override
-	default TodoListDTO entityFromDto(TodoList entity) {
-		if (entity == null) {
+	@Mapping(target = "")
+	default TodoList todoListDtoToEntity(TodoListDTO todoListDto) {
+		if (todoListDto == null) {
 			return null;
 		}
 		
-		TodoListDTO dto = new TodoListDTO(1);
-		return null;
-	}
-
-	@Override
-	default TodoList dtoFromEntity(TodoListDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	default void updateFromDto(TodoListDTO dto, TodoList entity) {
-		// TODO Auto-generated method stub
+		TodoList todoList = new TodoList();
 		
-	}
+		
+		todoList.setTodoIdx(todoListDto.getTodoIdx());
+		todoList.setTodoContent(todoListDto.getTodoContent());
+		todoList.setCretDt(todoListDto.getCretDt());
+		todoList.setChgDt(todoListDto.getChgDt());
+		todoList.setSuccessYn(todoListDto.getSuccessYn());
+		todoList.setUser(todoListDto.getUser());
+		
+		return todoList;
+	};
+
+	@Mapping(target = "")
+	default TodoListDTO todoListToDto(TodoList todoList) {
+		if (todoList == null) {
+			return null;
+		}
+		
+		TodoListDTO todoListDto = new TodoListDTO();
+		
+		
+		todoListDto.setTodoIdx(todoList.getTodoIdx());
+		todoListDto.setTodoContent(todoList.getTodoContent());
+		todoListDto.setCretDt(todoList.getCretDt());
+		todoListDto.setChgDt(todoList.getChgDt());
+		todoListDto.setSuccessYn(todoList.getSuccessYn());
+		todoListDto.setUser(todoList.getUser());
+		
+		return todoListDto;
+	};
+
+	
 
 	
 	

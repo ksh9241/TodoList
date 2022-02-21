@@ -1,12 +1,12 @@
 package com.toy.todo.todolist;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.toy.todo.domain.TodoList;
 
 public interface TodoService{
 	int save(TodoList todo);
-	
-	List<TodoListDTO> findAllByUserIdx(TodoListDTO todoDto);
 
+	Page<TodoList> findAllByUserIdx(Long userIdx, Pageable pageable);
 }

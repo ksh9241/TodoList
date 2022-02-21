@@ -1,11 +1,11 @@
 package com.toy.todo.todolist;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.toy.todo.domain.TodoList;
@@ -20,8 +20,6 @@ public class TodoServiceImpl implements TodoService{
 	
 	@Autowired
 	private UserRepository userRepository;
-	
-	private TodoMapper mapper = Mappers.getMapper(TodoMapper.class);
 	
 	@Override
 	public int save(TodoList todo) {
@@ -38,15 +36,12 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 	@Override
-	public List<TodoListDTO> findAllByUserIdx(TodoListDTO todoDto) {
-		List<TodoList> list = todoRepository.findAllByUserIdx(todoDto);
+	public Page<TodoList> findAllByUserIdx(Long userIdx, Pageable pageable) {
+		Page<TodoList> result = todoRepository.findAllByUserIdx(userIdx, pageable);
+//		List<TodoList> result = todoRepository.findAllByUserIdx(userIdx);
+		System.out.println("result === "+result.getSize());
 		
-		List<TodoListDTO> dtoList = new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			dtoList.add(mapper.entityFromDto(list.get(i)));
-		}
-		
-		return dtoList;
+		return result;
+				
 	}
-
 }
