@@ -58,8 +58,6 @@ public class TodoController {
 		
 		Page<TodoList> list = todoService.findAllByUserIdx(Long.parseLong(userIdx), pageable);
 		
-		System.out.println("size === "+list.getTotalElements());
-		
 		Map<String, Page<TodoList>> map = new HashMap<>();
 		map.put("todoList", list);
 		return map;

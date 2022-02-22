@@ -1,19 +1,13 @@
 package com.toy.todo.home;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.toy.todo.domain.TodoList;
 import com.toy.todo.domain.User;
 import com.toy.todo.security.PrincipalDetails;
-import com.toy.todo.todolist.TodoListDTO;
 import com.toy.todo.todolist.TodoService;
 import com.toy.todo.user.UserService;
 
@@ -23,9 +17,6 @@ public class HomeContorller {
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private TodoService todoService;
 	
 	// 테스트용
 	@GetMapping("/main")

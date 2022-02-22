@@ -1,7 +1,5 @@
 package com.toy.todo.todolist;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +9,7 @@ import com.toy.todo.domain.TodoList;
 
 @Repository
 public interface TodoRepository extends JpaRepository<TodoList, Long>{
-
+	
 	Page<TodoList> findAllByUserIdx(Long userIdx, Pageable pageable);
-//	List<TodoList> findAllByUserIdx(Long userIdx);
+	
 }

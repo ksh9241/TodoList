@@ -13,6 +13,7 @@ function newTodoList() {
 
 function findAllTodoList() {
 	let userIdx = document.querySelector("#userIdx").value;
+	let pageNum = 0; // 클릭 시 처리할 예정
 	
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener("load", function(e) {
@@ -21,7 +22,7 @@ function findAllTodoList() {
 		}
 	})
 	
-	xhr.open("GET", "/auth/"+userIdx);
+	xhr.open("GET", "/auth/"+userIdx+"?page="+pageNum);
 	xhr.send();
 }
 

@@ -1,10 +1,10 @@
 package com.toy.todo.todolist;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +37,8 @@ public class TodoServiceImpl implements TodoService{
 
 	@Override
 	public Page<TodoList> findAllByUserIdx(Long userIdx, Pageable pageable) {
+		
 		Page<TodoList> result = todoRepository.findAllByUserIdx(userIdx, pageable);
-//		List<TodoList> result = todoRepository.findAllByUserIdx(userIdx);
-		System.out.println("result === "+result.getSize());
 		
 		return result;
 				
