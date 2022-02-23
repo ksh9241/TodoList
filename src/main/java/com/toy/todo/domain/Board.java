@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +28,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "Board")
-//@EqualsAndHashCode(callSuper = false, exclude = {"user"})
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "boardId")
 public class Board {
 	
 	// 게시판 작성 내용
@@ -39,6 +42,8 @@ public class Board {
 	@NotNull
 	private LocalDateTime cretDt;
 	private LocalDateTime chgDt;
+	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_idx")
 	private User user;
