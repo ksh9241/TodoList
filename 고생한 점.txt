@@ -29,6 +29,8 @@ lombok, toString 사용 지양
 Ajax 통신 이후 JSON으로 받아오는 과정에서 Serialization (직열화)이 안되는 문제
 - 해당 Object를 JSON으로 변환하지 않는다면, @JsonIgnore 어노테이션을 nested 객체에 붙인다.
 
+10. layout decorator 안먹는 문제 -> layout decorate로 변경됨. (검색 오지게 안나오네..)
+
 -- 할일
 
 ★ thymeleaf decorator 안먹는 거 해결해야함...

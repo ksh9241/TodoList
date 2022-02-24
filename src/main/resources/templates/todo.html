@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<th:block th:fragment="todoListFragment">
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layout/main_layout}">
+<!-- <th:block th:fragment="todoListFragment"> -->
+<div th:fragment="todoList">
 	<input type="hidden" name="userIdx" id="userIdx" th:value="${findUser.idx}">
-				
+	<input type="text" th:text="${todoList}">				
 	<div class="mainHeader" style="margin-top:10px;height:10%;margin-bottom:10px;">
 		<button type="button" id="newTodo" class="btn btn-success" style="float:right;margin-right:20px;">New Todo</button>
 		<span type="button" style="float:right; margin-right:15%;">
@@ -27,11 +29,12 @@
 					<th>successYn</th>
 				</tr>
 			</thead>
-			<tbody th:object="todo : ${todoList}">
-				<tr th:each="content : ${todo}">
-					<td th:text="${content.todoIdx}">1</td>
-					<td th:text="${content.todoContent}">오늘할일 작성하기</td>
-					<td th:if="${content.successYn}">
+			<tbody th:each="todo : ${todoList}">
+				<!-- <tr th:each="content : ${todo}"> -->
+				<tr>
+					<td th:text="${todo.todoIdx}">1</td>
+					<td th:text="${todo.todoContent}">오늘할일 작성하기</td>
+					<td th:if="${todo.successYn}">
 						<button type="button" class="btn btn-outline-primary">성공</button>									
 						<button type="button" class="btn btn-outline-danger">실패</button>									
 					</td>
@@ -59,4 +62,5 @@
 		  </ul>
 		</nav>
 	</div>
-</th:block>
+</div>	
+<!-- </th:block> -->

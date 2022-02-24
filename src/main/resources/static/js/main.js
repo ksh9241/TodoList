@@ -18,7 +18,7 @@ function findAllTodoList() {
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener("load", function(e) {
 		if (xhr.status == 200 & xhr.readyState == 4) {
-			console.log(e);
+			let data = JSON.parse(e.target.responseText);
 		}
 	})
 	

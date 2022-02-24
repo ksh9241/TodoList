@@ -21,7 +21,7 @@ public class HomeContorller {
 	// 테스트용
 	@GetMapping("/main")
 	public ModelAndView homePage() {
-		mav.setViewName("test");
+		mav.setViewName("test4");
 		return mav;
 	}
 	
@@ -35,7 +35,9 @@ public class HomeContorller {
 		User user = userService.findByUserId(userId);
 		
 		mav.addObject("findUser", user);
-		mav.setViewName("layout/main_layout");
+//		mav.setViewName("layout/main_layout");
+		mav.setViewName("main");
+		
 		return mav;
 	}
 	

@@ -2,11 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
-	
-		
-	<script type="text/javascript" src="js/main.js"></script>
-	<link href="css/main.css" rel="stylesheet" type="text/css">
-	
     <!-- 공통 헤드-->
     <head th:replace="/layout/fragments/head :: headFragment"></head>
 
@@ -23,9 +18,7 @@
 					class="layout_top"></top>
 					
 				<!-- 본문-->
-				<th:block th:replace="/todo :: todoListFragment" class="container-fluid">
-					
-				</th:block>
+				<th:block layout:fragment="content"></th:block>
 				</div>
 				<!-- 공통 하단-->
 				<footer th:replace="/layout/fragments/footer :: footerFragment" class="sticky-footer bg-white"></footer>
