@@ -18,12 +18,36 @@ function findAllTodoList() {
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener("load", function(e) {
 		if (xhr.status == 200 & xhr.readyState == 4) {
+			console.log(e.target.responseText);
 			let data = JSON.parse(e.target.responseText);
+			
+			replaceHandlebars(data);
+			
 		}
 	})
 	
 	xhr.open("GET", "/auth/"+userIdx+"?page="+pageNum);
 	xhr.send();
+}
+
+function replaceHandlebars(data) {
+	/*todoList Handlebar*/
+	let todoList = document.querySelector("#todoListTemplate").innerHTML;
+	let todoListHandlebar = Handlebars.compile(todoList);
+	let todoListHTML = todoListHandlebar(data);
+	let todoListResult = '';
+	todoListResult += todoListHTML;
+	let todoSpace = document.querySelector("#todoList-space");
+	todoSpace.innerHTML = todoListResult;
+	
+	/*Pagination Handlebars*/
+	let pagination = document.querySelector("#pagingTemplate").innerHTML;
+	let paginationHandlebar = Handlebars.compile(pagination);
+	let paginationHTML = paginationHandlebar(data);
+	let paginationResult = '';
+	paginationHtml += paginationHTML;
+	let pageSpace = document.querySelector("#pagination-space");
+	pageSpace.innerHTML = pageSpace;
 }
 
 
@@ -75,6 +99,7 @@ function buildCalendal() {
 	document.querySelector(".calendarDates").innerHTML = htmlDates;
 }
 
+/*
 $(function() {
        //input을 datepicker로 선언
        $("#datepicker").datepicker({
@@ -99,3 +124,4 @@ $(function() {
        //초기값을 오늘 날짜로 설정해줘야 합니다.
        $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
    });
+*/

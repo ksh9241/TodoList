@@ -3,11 +3,21 @@
 	  xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main_layout}"> 
-      
-<script type="text/javascript" src="js/main.js"></script>
-<link href="css/main.css" rel="stylesheet" type="text/css">      
 
-<title th:fragment="title">Todo List Main Page</title>
+<th:block layout:fragment="css">
+	<link href="css/main.css" rel="stylesheet" type="text/css">
+</th:block>
+
+<th:block layout:fragment="script">
+	<script type="text/javascript" src="js/main.js"></script>
+	
+	<!-- Handlebars -->
+	<!-- <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+</th:block>      
+      
+
+<title layout:fragment="title">Todo List Main Page</title>
 	
       
     <!-- Begin Page Content -->

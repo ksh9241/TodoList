@@ -1,8 +1,5 @@
 package com.toy.todo.todolist;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,13 +50,12 @@ public class TodoController {
 	}
 	
 	@GetMapping("/auth/{userIdx}")
-	public Map<String, Page<TodoList>> findTodoListByUserId(@PathVariable String userIdx
+	public Page<TodoList> findTodoListByUserId(@PathVariable String userIdx
 			, @PageableDefault(page = 0, size = 5) Pageable pageable ) {
 		
 		Page<TodoList> list = todoService.findAllByUserIdx(Long.parseLong(userIdx), pageable);
 		
-		Map<String, Page<TodoList>> map = new HashMap<>();
-		map.put("todoList", list);
-		return map;
+		return list;
 	}
+	
 }

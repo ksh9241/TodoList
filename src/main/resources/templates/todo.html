@@ -5,7 +5,6 @@
 <!-- <th:block th:fragment="todoListFragment"> -->
 <div th:fragment="todoList">
 	<input type="hidden" name="userIdx" id="userIdx" th:value="${findUser.idx}">
-	<input type="text" th:text="${todoList}">				
 	<div class="mainHeader" style="margin-top:10px;height:10%;margin-bottom:10px;">
 		<button type="button" id="newTodo" class="btn btn-success" style="float:right;margin-right:20px;">New Todo</button>
 		<span type="button" style="float:right; margin-right:15%;">
@@ -14,7 +13,15 @@
 		<span style="float:right;margin-right:15%;">일일 달성률 : <b style="color:red;">0%</b></span>
 	</div>
 	
-	<div style="height:60%;">
+	<div style="height:60%;" id="todoList-space">
+		
+	</div>
+	
+	<div style="height:15%; margin-top:10px; display:flex; justify-content:center;" id="pagination-space">
+		
+	</div>
+	
+	<script type="tempalte" id="todoListTemplate">
 		<table class="table table-striped table-hover">
 			<colgroup>
 				<col width="10%;">
@@ -29,21 +36,22 @@
 					<th>successYn</th>
 				</tr>
 			</thead>
-			<tbody th:each="todo : ${todoList}">
-				<!-- <tr th:each="content : ${todo}"> -->
+			<tbody>
+				{{#each content}}
 				<tr>
-					<td th:text="${todo.todoIdx}">1</td>
-					<td th:text="${todo.todoContent}">오늘할일 작성하기</td>
-					<td th:if="${todo.successYn}">
+					<td>{{todoIdx}}</td>
+					<td>{{todoContent}}</td>
+					<td value="{{successYn}}">
 						<button type="button" class="btn btn-outline-primary">성공</button>									
 						<button type="button" class="btn btn-outline-danger">실패</button>									
 					</td>
 				</tr>
+				{{/each}}
 			</tbody>
 		</table>
-	</div>
+	</script>
 	
-	<div style="height:15%; margin-top:10px; display:flex; justify-content:center;">
+	<script type="template" id="pagingTemplate">
 		<nav aria-label="Page navigation example">
 		  <ul class="pagination">
 		    <li class="page-item">
@@ -51,9 +59,9 @@
 		        <span aria-hidden="true">&laquo;</span>
 		      </a>
 		    </li>
-		    <li th:each="pagination : ${todoList}" class="page-item"><a class="page-link" href="#">1</a></li>
-		    <li class="page-item"><a class="page-link" href="#">2</a></li>
-		    <li class="page-item"><a class="page-link" href="#">3</a></li>
+			{{#each pageable}}
+		    <li class="page-item"><a class="page-link" href="#">{{pageSize}}</a></li>
+		    {{/each}}
 		    <li class="page-item">
 		      <a class="page-link" href="#" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
@@ -61,6 +69,6 @@
 		    </li>
 		  </ul>
 		</nav>
-	</div>
+	</script>
 </div>	
 <!-- </th:block> -->
