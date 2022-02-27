@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	openCalendar();
 	newTodoList();
 	findAllTodoList();
+	//updateSuccessYn();		// 버튼 클릭 시 idx값 서버로 던져서 update 이후 disabled 처리
 })
 
 function newTodoList() {
@@ -18,11 +19,12 @@ function findAllTodoList() {
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener("load", function(e) {
 		if (xhr.status == 200 & xhr.readyState == 4) {
-			console.log(e.target.responseText);
 			let data = JSON.parse(e.target.responseText);
 			
 			replaceHandlebars(data);
+			replacePageHandlebars(data);
 			
+			updateSuccessYn();
 		}
 	})
 	
@@ -39,18 +41,80 @@ function replaceHandlebars(data) {
 	todoListResult += todoListHTML;
 	let todoSpace = document.querySelector("#todoList-space");
 	todoSpace.innerHTML = todoListResult;
+}
+
+/* 페이징 수정 해야됨. Handlebars로 int 값 하나만으로 반복문 어떻게 돌릴 지 찾아봐야 함. */
+function replacePageHandlebars(data) {
 	
 	/*Pagination Handlebars*/
 	let pagination = document.querySelector("#pagingTemplate").innerHTML;
 	let paginationHandlebar = Handlebars.compile(pagination);
-	let paginationHTML = paginationHandlebar(data);
+	let paginationHTML = paginationHandlebar(data.pageable);
+	
+	
+	Handlebars.registerHelper("for", function(options) {
+		console.log("prev == "+this);
+		return true;
+	})
+	
+	Handlebars.registerHelper("checkNext", function(options) {
+		console.log("next == "+this);
+		return true;
+	})
+	
+	
 	let paginationResult = '';
-	paginationHtml += paginationHTML;
+	paginationResult += paginationHTML;
 	let pageSpace = document.querySelector("#pagination-space");
-	pageSpace.innerHTML = pageSpace;
+	pageSpace.innerHTML = paginationResult;
 }
 
-
+function updateSuccessYn() {
+	let successBtnArr = document.querySelectorAll(".successTag");
+	for (let i = 0; i < successBtnArr.length; i++) {
+		let successBt = successBtnArr[i].firstElementChild;
+		let faildBt = successBtnArr[i].lastElementChild;
+		let idx = successBtnArr[i].closest("tr").firstElementChild.innerText;
+		
+		
+		successBt.addEventListener("click", function() {
+			if(confirm("할일을 완료하였습니까??")) {
+				let xhr = new XMLHttpRequest();
+				let data = {"successYn" : "Y"
+							, "idx" : idx};
+				
+				xhr.addEventListener("load", function() {
+					if (xhr.status == 200 && xhr.readyState == 4) {
+						successBt.setAttribute("class", "btn btn-primary");
+						successBt.setAttribute("disabled", true);
+						faildBt.setAttribute("disabled", true);
+					}
+				})
+				xhr.open("POST","/auth/updateSuccessYn");
+				xhr.setRequestHeader("Content-type","application/json");
+				xhr.send(JSON.stringify(data));
+			}
+		});
+		
+		faildBt.addEventListener("click", function() {
+			if(confirm("할일을 정말 포기하시겠습니까??")) {
+				let xhr = new XMLHttpRequest();
+				let data = {"successYn" : "N", "idx" : idx};
+				
+				xhr.addEventListener("load", function() {
+					if (xhr.status == 200 && xhr.readyState == 4) {
+						successBt.setAttribute("disabled", true);
+						faildBt.setAttribute("class", "btn btn-danger");
+						faildBt.setAttribute("disabled", true);
+					}
+				})
+				xhr.open("POST","/auth/updateSuccessYn");
+				xhr.setRequestHeader("Content-type","application/json");
+				xhr.send(JSON.stringify(data));
+			}
+		});			
+	}
+}
 
 function openCalendar() {
 	let calendar = document.querySelector(".calendar");

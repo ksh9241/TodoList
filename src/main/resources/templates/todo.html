@@ -41,7 +41,7 @@
 				<tr>
 					<td>{{todoIdx}}</td>
 					<td>{{todoContent}}</td>
-					<td value="{{successYn}}">
+					<td value="{{successYn}}" class="successTag">
 						<button type="button" class="btn btn-outline-primary">성공</button>									
 						<button type="button" class="btn btn-outline-danger">실패</button>									
 					</td>
@@ -54,19 +54,21 @@
 	<script type="template" id="pagingTemplate">
 		<nav aria-label="Page navigation example">
 		  <ul class="pagination">
+
 		    <li class="page-item">
 		      <a class="page-link" href="#" aria-label="Previous">
 		        <span aria-hidden="true">&laquo;</span>
 		      </a>
 		    </li>
-			{{#each pageable}}
-		    <li class="page-item"><a class="page-link" href="#">{{pageSize}}</a></li>
-		    {{/each}}
+			
+		    <li class="page-item"><a class="page-link" href="#">{{pageNumber}}</a></li>
+
 		    <li class="page-item">
 		      <a class="page-link" href="#" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
 		      </a>
 		    </li>
+
 		  </ul>
 		</nav>
 	</script>

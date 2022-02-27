@@ -1,5 +1,7 @@
 package com.toy.todo.todolist;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,6 +58,12 @@ public class TodoController {
 		Page<TodoList> list = todoService.findAllByUserIdx(Long.parseLong(userIdx), pageable);
 		
 		return list;
+	}
+	
+	@PostMapping("/auth/updateSuccessYn")
+	public String updateTodoSuccessYn(@RequestBody Map<String, String> map) {
+//		todoService.updateSuccessYn(map);
+		return null;
 	}
 	
 }
