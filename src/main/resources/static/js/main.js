@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 	openCalendar();
 	newTodoList();
-	findAllTodoList();
+	findAllTodoList(0);
 	//updateSuccessYn();		// 버튼 클릭 시 idx값 서버로 던져서 update 이후 disabled 처리
 })
 
@@ -12,19 +12,28 @@ function newTodoList() {
 	})
 }
 
-function findAllTodoList() {
+/**
+	로드 시 고객정보를 통한 데이터 조회
+	- 고객 검색 시 사용 예정
+ */
+function findAllTodoList(pageNum) {
 	let userIdx = document.querySelector("#userIdx").value;
-	let pageNum = 0; // 클릭 시 처리할 예정
 	
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener("load", function(e) {
 		if (xhr.status == 200 & xhr.readyState == 4) {
 			let data = JSON.parse(e.target.responseText);
 			
-			replaceHandlebars(data);
-			replacePageHandlebars(data);
+			replaceHandlebars(data.todoList);		// 일정리스트 세팅
+			replacePageHandlebars(data.todoList);	// 페이징처리
 			
-			updateSuccessYn();
+			updateSuccessYn();						// 할일 성공여부 업데이트
+			
+			// 달성률 세팅
+			document.querySelector("#totalTodoCount").value = data.todoList.totalElements;
+			document.querySelector("#successTodoCount").value = data.successCount;
+			SuccessRateInfo();					
+			
 		}
 	})
 	
@@ -32,6 +41,9 @@ function findAllTodoList() {
 	xhr.send();
 }
 
+/**
+	Handlebars 데이터 바인딩
+ */
 function replaceHandlebars(data) {
 	/*todoList Handlebar*/
 	let todoList = document.querySelector("#todoListTemplate").innerHTML;
@@ -69,6 +81,9 @@ function replacePageHandlebars(data) {
 	pageSpace.innerHTML = paginationResult;
 }
 
+/**
+	하루 일정 성공 실패 버튼 클릭 시 비동기 처리
+ */
 function updateSuccessYn() {
 	let successBtnArr = document.querySelectorAll(".successTag");
 	for (let i = 0; i < successBtnArr.length; i++) {
@@ -83,11 +98,9 @@ function updateSuccessYn() {
 				let data = {"successYn" : "Y"
 							, "idx" : idx};
 				
-				xhr.addEventListener("load", function() {
+				xhr.addEventListener("load", function(e) {
 					if (xhr.status == 200 && xhr.readyState == 4) {
-						successBt.setAttribute("class", "btn btn-primary");
-						successBt.setAttribute("disabled", true);
-						faildBt.setAttribute("disabled", true);
+						callBack("todoSuccess", e.target.responseText, successBtnArr[i]);
 					}
 				})
 				xhr.open("POST","/auth/updateSuccessYn");
@@ -101,11 +114,9 @@ function updateSuccessYn() {
 				let xhr = new XMLHttpRequest();
 				let data = {"successYn" : "N", "idx" : idx};
 				
-				xhr.addEventListener("load", function() {
+				xhr.addEventListener("load", function(e) {
 					if (xhr.status == 200 && xhr.readyState == 4) {
-						successBt.setAttribute("disabled", true);
-						faildBt.setAttribute("class", "btn btn-danger");
-						faildBt.setAttribute("disabled", true);
+						callBack("todoFail", e.target.responseText, successBtnArr[i]);
 					}
 				})
 				xhr.open("POST","/auth/updateSuccessYn");
@@ -163,29 +174,52 @@ function buildCalendal() {
 	document.querySelector(".calendarDates").innerHTML = htmlDates;
 }
 
-/*
-$(function() {
-       //input을 datepicker로 선언
-       $("#datepicker").datepicker({
-           dateFormat: 'yy-mm-dd' //달력 날짜 형태
-           ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-           ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
-           ,changeYear: true //option값 년 선택 가능
-           ,changeMonth: true //option값  월 선택 가능                
-           ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-           ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-           ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
-           ,buttonText: "선택" //버튼 호버 텍스트              
-           ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
-           ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
-           ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
-           ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
-           ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
-           ,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-           ,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
-       });                    
-       
-       //초기값을 오늘 날짜로 설정해줘야 합니다.
-       $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
-   });
-*/
+/**
+파라미터
+1. Id
+2. Data
+ */
+function callBack(id, data, target) {
+	switch (id) {
+		case "todoSuccess" : 
+			if (data == "success") {
+				target.firstElementChild.setAttribute("class", "btn btn-primary");
+				target.firstElementChild.setAttribute("disabled", true);
+				target.lastElementChild.setAttribute("disabled", true);
+				target.closest("tr").setAttribute("style","background-color:yellow");
+				
+				document.querySelector("#successTodoCount").value = parseInt(document.querySelector("#successTodoCount").value) + 1;
+				SuccessRateInfo();
+			}
+			else {
+				alert("문제가 발생하였습니다.\n잠시 후 다시 시도해주시기 바랍니다..");
+			}
+		break;
+		
+		case "todoFail" :
+			if (data == "success") {
+				target.firstElementChild.setAttribute("disabled", true);
+				target.lastElementChild.setAttribute("class", "btn btn-danger");
+				target.lastElementChild.setAttribute("disabled", true);
+				target.closest("tr").setAttribute("style","background-color:tomato");
+			}
+			else {
+				alert("문제가 발생하였습니다.\n잠시 후 다시 시도해주시기 바랍니다..");
+			}
+		break;
+	}
+}
+
+/**
+	달성률 서버에서 조회
+ */
+function SuccessRateInfo () {
+	let totalCount = document.querySelector("#totalTodoCount").value;
+	let successCount = document.querySelector("#successTodoCount").value;
+	
+	let rate = 0;
+	if (successCount > 0) {
+		rate = Math.ceil( (successCount/ totalCount) * 100 );
+	}
+	document.querySelector("#rateValue").innerText = rate + "%";
+}

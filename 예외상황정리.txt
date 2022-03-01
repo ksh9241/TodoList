@@ -1,0 +1,17 @@
+1. JPA 관련 예외
+- jpa fetch out of sequence
+/**
+* clearAutomatically : persistent context의 캐시를 지워주는 옵션이다.
+* flushAutomatically : persistent context 상태라면 flush 해서 update 해주겠다는 옵션이다.
+* */
+@Modifying(clearAutomatically = true)
+
+옵션을 줘서 persistent context의 캐시를 지워주었다.
+
+
+- TransactionRequiredException: Executing an update/delete query
+Update, Delete 시 @Transactional 옵션을 메서드에 추가해줘야 한다.
+
+- jpql 사용 시 UnsatisfiedDependencyException 에러날 때
+@Query 어노테이션에 nativeQuery = true 옵션을 줘야한다.
+이유는 nativeQuery 속성을 지정해서 DB에 사용하는 SQL을 그대로 사용할 수 있다.

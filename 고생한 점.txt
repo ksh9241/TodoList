@@ -33,18 +33,12 @@ Ajax 통신 이후 JSON으로 받아오는 과정에서 Serialization (직열화
 
 -- 할일
 
-★ thymeleaf decorator 안먹는 거 해결해야함...
+고객 조회 시 조회된 고객의 todoList 조회 (완료) ( ★ 이떄 자기자신이 아니면 successYn 버튼 disabled처리 ) 
+ ★ 달성률 보이기 (successYn[Y] / todayList)
 
-메인에 헤더 부분에 투두리스트 추가 버튼 및 기능, 달력 만들고 달력 별 todoList 조회, 그날 달성률 보이기 (successYn[Y] / todayList)
-
-JPA row_number 처리 및 order by 처리
-
-페이징 오브젝트 통해서 between 처리 및 페이지사이즈 받아서
-main 페이지 페이징 처리
+달력 만들고 달력 별 todoList 조회
 
 아이디 저장 기능 구현 ( 
-고객 조회 시 조회된 고객의 todoList 조회 (이떄 자기자신이 아니면 successYn 버튼 disabled처리 )
-
 
  - 커뮤니티
  게시판 만들기

@@ -10,7 +10,11 @@
 		<span type="button" style="float:right; margin-right:15%;">
 			<i style="font-size:x-large;" class="far fa-calendar-alt calendar"></i>
 		</span>
-		<span style="float:right;margin-right:15%;">일일 달성률 : <b style="color:red;">0%</b></span>
+		<span style="float:right;margin-right:15%;">
+		<input type="hidden" id="totalTodoCount">
+		<input type="hidden" id="successTodoCount">
+			일일 달성률 : <b id="rateValue" style="color:red;">0%</b>
+		</span>
 	</div>
 	
 	<div style="height:60%;" id="todoList-space">

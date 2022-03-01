@@ -1,12 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
 	asyncSelectUser();
+	searchUsers();
 })
 
 function asyncSelectUser() {
 	let searchBar = document.querySelector(".search-input");
 	searchBar.addEventListener("keyup", function(e) {
 		if (e.target.value.length > 0) {
-			xmlHttpRequest(e.target.value);
+			let xhr = new XMLHttpRequest();
+			xhr.addEventListener("load", () => {
+				if (xhr.status == 200 && xhr.readyState == 4) {
+					let data = JSON.parse(xhr.responseText);
+					searchUsersAddViewList(data);
+				} 
+			})
+			
+			xhr.open("POST", "/user/searchUsers");
+			xhr.send(e.target.value);
 		}
 		else {
 			document.querySelector(".searchUsersList ul").style.display = "none";
@@ -16,16 +26,7 @@ function asyncSelectUser() {
 }
 
 function xmlHttpRequest(str) {
-	let xhr = new XMLHttpRequest();
-	xhr.addEventListener("load", () => {
-		if (xhr.status == 200 && xhr.readyState == 4) {
-			let data = JSON.parse(xhr.responseText);
-			searchUsersAddViewList(data);
-		} 
-	})
 	
-	xhr.open("POST", "/user/searchUsers");
-	xhr.send(str);
 }
 
 function searchUsersAddViewList(data) {
@@ -98,4 +99,18 @@ function searchUsersMouseEvent() {
 			document.querySelector("#userIdx").value = e.target.closest("li").lastChild.innerText;
 		})
 	}
+}
+
+function searchUsers () {
+	let bt = document.querySelector("#searchBt");
+	bt.addEventListener("click", function() {
+		let text = document.querySelector(".search-input").value.trim();
+		if (text.length == 0) {
+			alert("조회할 아이디를 입력하세요");
+			return;
+		}
+		
+		// main.js에서 TodoList 처리하는 메서드
+		findAllTodoList(0);
+	})
 }

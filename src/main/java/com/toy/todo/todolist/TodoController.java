@@ -1,5 +1,6 @@
 package com.toy.todo.todolist;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,19 +52,29 @@ public class TodoController {
 		return resultMsg;
 	}
 	
+//	@GetMapping("/auth/{userIdx}")
+//	public Page<TodoList> findTodoListByUserId(@PathVariable String userIdx
+//			, @PageableDefault(page = 0, size = 5) Pageable pageable ) {
+//		
+//		Page<TodoList> list = todoService.findAllByUserIdx(Long.parseLong(userIdx), pageable);
+//		
+//		
+//		return list;
+//	}
+	
 	@GetMapping("/auth/{userIdx}")
-	public Page<TodoList> findTodoListByUserId(@PathVariable String userIdx
+	public Map<String, Object> findTodoListByUserId(@PathVariable String userIdx
 			, @PageableDefault(page = 0, size = 5) Pageable pageable ) {
 		
-		Page<TodoList> list = todoService.findAllByUserIdx(Long.parseLong(userIdx), pageable);
+		Map<String, Object> map = todoService.findAllByUserIdx(Long.parseLong(userIdx), pageable);
 		
-		return list;
+		return map;
 	}
 	
 	@PostMapping("/auth/updateSuccessYn")
 	public String updateTodoSuccessYn(@RequestBody Map<String, String> map) {
-//		todoService.updateSuccessYn(map);
-		return null;
+		String result = todoService.updateSuccessYn(map);
+		return result;
 	}
 	
 }

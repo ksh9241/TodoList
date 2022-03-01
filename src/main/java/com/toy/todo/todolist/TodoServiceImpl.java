@@ -1,10 +1,11 @@
 package com.toy.todo.todolist;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -36,11 +37,29 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 	@Override
-	public Page<TodoList> findAllByUserIdx(Long userIdx, Pageable pageable) {
+	public Map<String, Object> findAllByUserIdx(Long userIdx, Pageable pageable) {
 		
 		Page<TodoList> result = todoRepository.findAllByUserIdx(userIdx, pageable);
-		
-		return result;
+		int successCount = successCount(userIdx);
+		Map<String, Object> map = new HashMap<>(); 
+		map.put("todoList", result);
+		map.put("successCount", successCount);
+		return map;
 				
+	}
+
+	@Override
+	public String updateSuccessYn(Map<String, String> map) {
+		String todoIdx = map.get("idx");
+		String sucesYn = map.get("successYn");
+		
+		int result = todoRepository.updateSuccessYn(todoIdx, sucesYn);
+		
+		return result > 0 ? "success" : "fail";
+	}
+	
+	private int successCount(Long userIdx) {
+		int successCount = todoRepository.findSuccessCount(userIdx);		
+		return successCount;
 	}
 }
