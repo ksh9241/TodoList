@@ -43,7 +43,7 @@
 			<tbody>
 				{{#each content}}
 				<tr>
-					<td>{{todoIdx}}</td>
+					<td value={{todoIdx}}>{{todoIdx}}<br></td>
 					<td>{{todoContent}}</td>
 					<td value="{{successYn}}" class="successTag">
 						<button type="button" class="btn btn-outline-primary">성공</button>									
@@ -53,28 +53,6 @@
 				{{/each}}
 			</tbody>
 		</table>
-	</script>
-	
-	<script type="template" id="pagingTemplate">
-		<nav aria-label="Page navigation example">
-		  <ul class="pagination">
-
-		    <li class="page-item">
-		      <a class="page-link" href="#" aria-label="Previous">
-		        <span aria-hidden="true">&laquo;</span>
-		      </a>
-		    </li>
-			
-		    <li class="page-item"><a class="page-link" href="#">{{pageNumber}}</a></li>
-
-		    <li class="page-item">
-		      <a class="page-link" href="#" aria-label="Next">
-		        <span aria-hidden="true">&raquo;</span>
-		      </a>
-		    </li>
-
-		  </ul>
-		</nav>
 	</script>
 </div>	
 <!-- </th:block> -->

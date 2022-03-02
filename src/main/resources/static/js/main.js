@@ -2,8 +2,37 @@ document.addEventListener("DOMContentLoaded", function() {
 	openCalendar();
 	newTodoList();
 	findAllTodoList(0);
-	//updateSuccessYn();		// 버튼 클릭 시 idx값 서버로 던져서 update 이후 disabled 처리
 })
+
+/**
+	할일 성공여부 체크
+ */
+function todoStyleSetting() {
+	let successBtnArr = document.querySelectorAll(".successTag");
+	
+	for (let i = 0; i < successBtnArr.length; i++) {
+		let value = successBtnArr[i].getAttribute("value");
+		let tagB = document.createElement("b");
+		switch (value) {
+			case "Y" :
+				successBtnArr[i].firstElementChild.setAttribute("class", "btn btn-primary");
+				successBtnArr[i].firstElementChild.setAttribute("disabled", true);
+				successBtnArr[i].lastElementChild.setAttribute("disabled", true);
+				tagB.innerText = "성공";
+				tagB.style = "color:darkseagreen";
+				successBtnArr[i].closest("tr").firstElementChild.insertAdjacentElement("beforeend", tagB);
+			break;
+			case "N" :
+				successBtnArr[i].firstElementChild.setAttribute("disabled", true);
+				successBtnArr[i].lastElementChild.setAttribute("class", "btn btn-danger");
+				successBtnArr[i].lastElementChild.setAttribute("disabled", true);
+				tagB.innerText = "실패";
+				tagB.style = "color:darkred";
+				successBtnArr[i].closest("tr").firstElementChild.insertAdjacentElement("beforeend", tagB);
+		}
+		
+	}
+}
 
 function newTodoList() {
 	let todoBtn = document.querySelector("#newTodo");
@@ -32,8 +61,9 @@ function findAllTodoList(pageNum) {
 			// 달성률 세팅
 			document.querySelector("#totalTodoCount").value = data.todoList.totalElements;
 			document.querySelector("#successTodoCount").value = data.successCount;
-			SuccessRateInfo();					
+			SuccessRateInfo();
 			
+			todoStyleSetting();
 		}
 	})
 	
@@ -55,30 +85,35 @@ function replaceHandlebars(data) {
 	todoSpace.innerHTML = todoListResult;
 }
 
-/* 페이징 수정 해야됨. Handlebars로 int 값 하나만으로 반복문 어떻게 돌릴 지 찾아봐야 함. */
+/* 페이징 수정 해야됨. 개같이 만들고있음.. */
 function replacePageHandlebars(data) {
+	console.log(data);
+	let pageNum = data.pageable.pageNumber + 1;
+	let pageCount = data.totalPages < data.pageable.pageSize ? data.totalPages : data.pageable.pageSize;
 	
 	/*Pagination Handlebars*/
-	let pagination = document.querySelector("#pagingTemplate").innerHTML;
-	let paginationHandlebar = Handlebars.compile(pagination);
-	let paginationHTML = paginationHandlebar(data.pageable);
+	let str = '';
+	
+	str += '<ul class="pagination">';
+	str += `<li class="page-item">
+		      <a class="page-link" href="#" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>`
+	for (let i = pageNum; i <= pageCount; i++) {
+		str += `<li class="page-item" value=${i-1}><a class="page-link" href="#">${i}</a></li>`
+	}
 	
 	
-	Handlebars.registerHelper("for", function(options) {
-		console.log("prev == "+this);
-		return true;
-	})
+	str += `<li class="page-item">
+		      <a class="page-link" href="#" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>`
+	str += '</ul>'
 	
-	Handlebars.registerHelper("checkNext", function(options) {
-		console.log("next == "+this);
-		return true;
-	})
-	
-	
-	let paginationResult = '';
-	paginationResult += paginationHTML;
 	let pageSpace = document.querySelector("#pagination-space");
-	pageSpace.innerHTML = paginationResult;
+	pageSpace.innerHTML = str;
 }
 
 /**
@@ -89,14 +124,13 @@ function updateSuccessYn() {
 	for (let i = 0; i < successBtnArr.length; i++) {
 		let successBt = successBtnArr[i].firstElementChild;
 		let faildBt = successBtnArr[i].lastElementChild;
-		let idx = successBtnArr[i].closest("tr").firstElementChild.innerText;
+		let idx = successBtnArr[i].closest("tr").firstElementChild.getAttribute("value");
 		
 		
 		successBt.addEventListener("click", function() {
 			if(confirm("할일을 완료하였습니까??")) {
 				let xhr = new XMLHttpRequest();
-				let data = {"successYn" : "Y"
-							, "idx" : idx};
+				let data = {"successYn" : "Y", "idx" : idx};
 				
 				xhr.addEventListener("load", function(e) {
 					if (xhr.status == 200 && xhr.readyState == 4) {
@@ -180,13 +214,17 @@ function buildCalendal() {
 2. Data
  */
 function callBack(id, data, target) {
+	let tagB = document.createElement("b");
 	switch (id) {
 		case "todoSuccess" : 
 			if (data == "success") {
 				target.firstElementChild.setAttribute("class", "btn btn-primary");
 				target.firstElementChild.setAttribute("disabled", true);
 				target.lastElementChild.setAttribute("disabled", true);
-				target.closest("tr").setAttribute("style","background-color:yellow");
+				
+				tagB.innerText = "성공";
+				tagB.style = "color:darkseagreen";
+				target.closest("tr").firstElementChild.insertAdjacentElement("beforeend", tagB);
 				
 				document.querySelector("#successTodoCount").value = parseInt(document.querySelector("#successTodoCount").value) + 1;
 				SuccessRateInfo();
@@ -201,7 +239,10 @@ function callBack(id, data, target) {
 				target.firstElementChild.setAttribute("disabled", true);
 				target.lastElementChild.setAttribute("class", "btn btn-danger");
 				target.lastElementChild.setAttribute("disabled", true);
-				target.closest("tr").setAttribute("style","background-color:tomato");
+				
+				tagB.innerText = "실패";
+				tagB.style = "color:darkred";
+				target.closest("tr").firstElementChild.insertAdjacentElement("beforeend", tagB);
 			}
 			else {
 				alert("문제가 발생하였습니다.\n잠시 후 다시 시도해주시기 바랍니다..");
