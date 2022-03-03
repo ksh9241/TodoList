@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -64,9 +65,10 @@ public class TodoController {
 	
 	@GetMapping("/auth/{userIdx}")
 	public Map<String, Object> findTodoListByUserId(@PathVariable String userIdx
-			, @PageableDefault(page = 0, size = 5) Pageable pageable ) {
+			, @PageableDefault(page = 0, size = 5) Pageable pageable
+			, @RequestParam String findDate) {
 		
-		Map<String, Object> map = todoService.findAllByUserIdx(Long.parseLong(userIdx), pageable);
+		Map<String, Object> map = todoService.findAllByUserIdx(Long.parseLong(userIdx), pageable, findDate);
 		
 		return map;
 	}

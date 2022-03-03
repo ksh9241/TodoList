@@ -10,7 +10,7 @@ import com.toy.todo.domain.TodoList;
 public interface TodoService{
 	int save(TodoList todo);
 
-	Map<String, Object> findAllByUserIdx(Long userIdx, Pageable pageable);
+	Map<String, Object> findAllByUserIdx(Long userIdx, Pageable pageable, String findDate);
 
 	String updateSuccessYn(Map<String, String> map);
 }

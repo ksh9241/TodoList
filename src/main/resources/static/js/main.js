@@ -47,6 +47,8 @@ function newTodoList() {
  */
 function findAllTodoList(pageNum) {
 	let userIdx = document.querySelector("#userIdx").value;
+	let findDate = dateSetting();
+	console.log(findDate);
 	
 	let xhr = new XMLHttpRequest();
 	xhr.addEventListener("load", function(e) {
@@ -64,11 +66,33 @@ function findAllTodoList(pageNum) {
 			SuccessRateInfo();
 			
 			todoStyleSetting();
+			
+			// 페이징 클릭 이벤트 (버튼 클릭 시 this.Method를 호출해서 callbackHell 위험이 없을까 걱정인데 현재는 이상없음.)
+			pageClickEvt();
 		}
 	})
 	
-	xhr.open("GET", "/auth/"+userIdx+"?page="+pageNum);
+	xhr.open("GET", "/auth/"+userIdx+"?page="+pageNum+"&findDate="+findDate);
 	xhr.send();
+}
+
+/**
+	달력 데이터 처리하는 메서드
+	디폴트값 input에 담아주거나 달력으로 input값 변경하면 날짜 반환해줌.
+ */
+function dateSetting() {
+	let findDate = document.querySelector("#findDate").value;
+	
+	if (findDate.length == 0) {
+		let date = new Date();
+		let year = date.getFullYear();
+		let month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+		let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+		let result = year+month+day;
+		findDate = result;
+	}
+	
+	return findDate;
 }
 
 /**
@@ -88,32 +112,56 @@ function replaceHandlebars(data) {
 /* 페이징 수정 해야됨. 개같이 만들고있음.. */
 function replacePageHandlebars(data) {
 	console.log(data);
-	let pageNum = data.pageable.pageNumber + 1;
-	let pageCount = data.totalPages < data.pageable.pageSize ? data.totalPages : data.pageable.pageSize;
+	
+	let endNum = Math.ceil( (data.number + 1) / data.pageable.pageSize ) * data.pageable.pageSize;
+	let startNum = endNum + 1 - data.pageable.pageSize;
+	
+	let lastPage = Math.ceil(data.totalElements / data.pageable.pageSize);
+	endNum = endNum > lastPage ? lastPage : endNum; 
 	
 	/*Pagination Handlebars*/
 	let str = '';
 	
 	str += '<ul class="pagination">';
-	str += `<li class="page-item">
-		      <a class="page-link" href="#" aria-label="Previous">
-		        <span aria-hidden="true">&laquo;</span>
-		      </a>
-		    </li>`
-	for (let i = pageNum; i <= pageCount; i++) {
-		str += `<li class="page-item" value=${i-1}><a class="page-link" href="#">${i}</a></li>`
+	
+	 
+	if (startNum > 1) {
+		str += `<li class="page-item" value=${startNum - 2}>
+			      <a class="page-link" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>`
 	}
 	
+	for (let i = startNum; i <= endNum; i++) {
+		if (i == data.number + 1) {
+			str += `<li class="page-item" value=${i-1}><a class="page-link check">${i}</a></li>`
+			continue;
+		}
+		str += `<li class="page-item" value=${i-1}><a class="page-link">${i}</a></li>`
+	}
 	
-	str += `<li class="page-item">
-		      <a class="page-link" href="#" aria-label="Next">
-		        <span aria-hidden="true">&raquo;</span>
-		      </a>
-		    </li>`
+	if (endNum < lastPage) {
+		str += `<li class="page-item" value=${endNum}>
+			      <a class="page-link" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>`
+	}
+	
 	str += '</ul>'
 	
 	let pageSpace = document.querySelector("#pagination-space");
 	pageSpace.innerHTML = str;
+}
+
+function pageClickEvt() {
+	let li = document.querySelectorAll(".pagination li");
+	for (let i = 0; i < li.length; i++) {
+		li[i].addEventListener("click", function(){
+			findAllTodoList(this.value);
+		})
+	}
 }
 
 /**

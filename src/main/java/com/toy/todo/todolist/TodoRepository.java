@@ -15,7 +15,13 @@ import com.toy.todo.domain.TodoList;
 @Repository
 public interface TodoRepository extends JpaRepository<TodoList, Long>{
 	
-	Page<TodoList> findAllByUserIdx(Long userIdx, Pageable pageable);
+	@Query(value = "SELECT A.*"
+			+ "		  FROM Todolist A"
+			+ "		 WHERE user_idx = :userIdx"
+			+ "		   AND TRUNC(cret_dt) = :findDate"
+			, countQuery = "SELECT count(*) FROM Todolist WHERE TRUNC(cret_dt) = :findDate"
+			, nativeQuery = true)	
+	Page<TodoList> findAllByUserIdx(@Param("userIdx") Long userIdx, Pageable pageable, @Param("findDate") String findDate);
 
 	/**
 	 * clearAutomatically : persistent context의 캐시를 지워주는 옵션이다.
@@ -26,7 +32,7 @@ public interface TodoRepository extends JpaRepository<TodoList, Long>{
 	@Query(value = "UPDATE Todolist t set t.success_yn = :sucesYn WHERE t.todo_idx = :todoIdx", nativeQuery = true)
 	int updateSuccessYn(@Param("todoIdx") String todoIdx, @Param("sucesYn") String sucesYn);
 
-	@Query(value = "SELECT COUNT(*) FROM Todolist t WHERE t.success_yn = 'Y' AND t.user_idx = :userIdx", nativeQuery = true)
-	int findSuccessCount(@Param("userIdx") Long userIdx);
+	@Query(value = "SELECT COUNT(*) FROM Todolist t WHERE t.success_yn = 'Y' AND t.user_idx = :userIdx AND TRUNC(cret_dt) = :findDate", nativeQuery = true)
+	int findSuccessCount(@Param("userIdx") Long userIdx, @Param("findDate") String findDate);
 	
 }

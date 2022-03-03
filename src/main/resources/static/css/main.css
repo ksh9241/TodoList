@@ -10,7 +10,7 @@
 .calendalContent button {
 	font-family : 'Raleway';
 	border:'none';
-	!height: 32px;
+	/* !height: 32px; */
 }
 .calendalHead {
 	display: flex; 
@@ -58,4 +58,8 @@
 }
 .today {
 	border: 2px solid #EFBBCF !important;
+}
+
+.check {
+	background-color:powderblue;
 }

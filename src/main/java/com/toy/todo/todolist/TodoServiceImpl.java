@@ -37,10 +37,10 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 	@Override
-	public Map<String, Object> findAllByUserIdx(Long userIdx, Pageable pageable) {
+	public Map<String, Object> findAllByUserIdx(Long userIdx, Pageable pageable, String findDate) {
 		
-		Page<TodoList> result = todoRepository.findAllByUserIdx(userIdx, pageable);
-		int successCount = successCount(userIdx);
+		Page<TodoList> result = todoRepository.findAllByUserIdx(userIdx, pageable, findDate);
+		int successCount = successCount(userIdx, findDate);
 		Map<String, Object> map = new HashMap<>(); 
 		map.put("todoList", result);
 		map.put("successCount", successCount);
@@ -58,8 +58,8 @@ public class TodoServiceImpl implements TodoService{
 		return result > 0 ? "success" : "fail";
 	}
 	
-	private int successCount(Long userIdx) {
-		int successCount = todoRepository.findSuccessCount(userIdx);		
+	private int successCount(Long userIdx, String findDate) {
+		int successCount = todoRepository.findSuccessCount(userIdx, findDate);		
 		return successCount;
 	}
 }
