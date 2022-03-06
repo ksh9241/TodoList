@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.toy.todo.domain.TodoList;
 
 public interface TodoService{
-	int save(TodoList todo);
+	String save(TodoList todo);
 
 	Map<String, Object> findAllByUserIdx(Long userIdx, Pageable pageable, String findDate);
 

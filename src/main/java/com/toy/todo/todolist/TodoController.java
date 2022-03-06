@@ -47,21 +47,8 @@ public class TodoController {
 		todo.setTodoContent(todoContent);
 		todo.setUser(user);
 		
-		int result = todoService.save(todo);
-		String resultMsg = result > 0 ? "success" : "failed";
-		
-		return resultMsg;
+		return todoService.save(todo);
 	}
-	
-//	@GetMapping("/auth/{userIdx}")
-//	public Page<TodoList> findTodoListByUserId(@PathVariable String userIdx
-//			, @PageableDefault(page = 0, size = 5) Pageable pageable ) {
-//		
-//		Page<TodoList> list = todoService.findAllByUserIdx(Long.parseLong(userIdx), pageable);
-//		
-//		
-//		return list;
-//	}
 	
 	@GetMapping("/auth/{userIdx}")
 	public Map<String, Object> findTodoListByUserId(@PathVariable String userIdx

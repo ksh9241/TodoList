@@ -23,7 +23,7 @@ public class TodoServiceImpl implements TodoService{
 	private UserRepository userRepository;
 	
 	@Override
-	public int save(TodoList todo) {
+	public String save(TodoList todo) {
 		Optional<User> optional = userRepository.findByUserId(todo.getUser().getUserId());
 		User findUser = optional.orElseGet(null);
 		Object result = null;
@@ -33,7 +33,7 @@ public class TodoServiceImpl implements TodoService{
 			result = todoRepository.save(todo);
 		}
 		
-		return result != null ? 1 : 0;
+		return result != null ? "success" : "failed";
 	}
 
 	@Override
