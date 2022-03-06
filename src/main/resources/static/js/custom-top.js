@@ -110,6 +110,8 @@ function searchUsers () {
 			return;
 		}
 		
+		document.querySelector(".search-input").value = "";
+		
 		// main.js에서 TodoList 처리하는 메서드
 		findAllTodoList(0);
 	})

@@ -5,15 +5,17 @@
 <!-- <th:block th:fragment="todoListFragment"> -->
 <div th:fragment="todoList">
 	<input type="hidden" name="userIdx" id="userIdx" th:value="${findUser.idx}">
+	<input type="hidden" id="totalTodoCount">
+	<input type="hidden" id="successTodoCount">
+	<input type="hidden" id="findDate">
+	
 	<div class="mainHeader" style="margin-top:10px;height:10%;margin-bottom:10px;">
 		<button type="button" id="newTodo" class="btn btn-success" style="float:right;margin-right:20px;">New Todo</button>
 		<span type="button" style="float:right; margin-right:15%;">
 			<i style="font-size:x-large;" class="far fa-calendar-alt calendar"></i>
+			<div id="calendal-span" style="display:none;"></div>
 		</span>
 		<span style="float:right;margin-right:15%;">
-		<input type="hidden" id="totalTodoCount">
-		<input type="hidden" id="successTodoCount">
-		<input type="hidden" id="findDate">
 			일일 달성률 : <b id="rateValue" style="color:red;">0%</b>
 		</span>
 	</div>
@@ -54,6 +56,31 @@
 				{{/each}}
 			</tbody>
 		</table>
+	</script>
+	
+	<script type="rv-template" id="calendal">
+		<div class="calendalContent" style="position:fixed;left:65%;">
+			<div class="calendalHead">
+				<button class="prevBtn">&lt</button>
+				<div class="calendalTitle">
+					<div class="yearMonthTitle">Year.Month</div>
+				</div>
+				<button class="nextBtn">&gt</button>
+			</div>
+							
+			<div class="calendalMain">
+				<div class="calendalDaies">
+					<div class="calendalDay">일</div>
+					<div class="calendalDay">월</div>
+					<div class="calendalDay">화</div>
+					<div class="calendalDay">수</div>
+					<div class="calendalDay">목</div>
+					<div class="calendalDay">금</div>
+					<div class="calendalDay">토</div>
+				</div>
+				<div class="calendarDates"></div>
+			</div>
+		</div>
 	</script>
 </div>	
 <!-- </th:block> -->

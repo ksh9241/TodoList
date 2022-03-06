@@ -212,17 +212,31 @@ function updateSuccessYn() {
 function openCalendar() {
 	let calendar = document.querySelector(".calendar");
 	calendar.addEventListener("click", ()=>{
-		//let calendal = document.querySelector("#calendal").innerText;
-		//document.querySelector(".mainHeader").innerHTML += calendal;
-		//buildCalendal();
+		if (document.querySelector("#calendal-span").style.display == "block") {
+			document.querySelector("#calendal-span").style.display = "none";
+		} 
+		else {
+			let calendal = document.querySelector("#calendal").innerText;
+	
+			let calendalSpan = document.querySelector("#calendal-span")
+			calendalSpan.innerHTML = calendal;
+			calendalSpan.style.display = "block";
+			buildCalendal();
+			
+			findTodoByCalendal();
+		}
 	})
 }
 
 function buildCalendal() {
+	
 	let date = new Date();
-	let cDate = new Date();
 	let year = date.getFullYear();
 	let month = date.getMonth() + 1 > 10 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1);
+	let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+	
+	document.querySelector(".yearMonthTitle").innerText = year + "." + month;
+	
 	
 	let p = new Date(year, date.getMonth(), 0); // 저번달 마지막날
 	let f = new Date(year, date.getMonth(), 1); // 이번달 첫날
@@ -231,29 +245,66 @@ function buildCalendal() {
 	let dates = [];
 	if (f.getDay() != 0) {
 		for (let i = 0; i < f.getDay(); i++) {
-			dates.unshift(p.getDate() - i);
+			let y = p.getFullYear();
+			let m = p.getMonth() > 10 ? (date.getMonth()) : "0" + (date.getMonth());
+			let d = p.getDate() - i; 
+			dates.unshift(y+m+d);
 		}
 	}
-	
 	for (let i = 1; i <= l.getDate(); i++) {
-		dates.push(i);
+		let d = i < 10 ? "0"+i : i;
+		dates.push(year + month + d);
 	}
 	
+	let nextMonth = new Date(date.getFullYear(), date.getMonth() + 2);
 	for (let i = 1; i <= 13 - l.getDay(); i++) {
-		dates.push(i);
+		let m = nextMonth.getMonth() > 10 ? nextMonth.getMonth() : "0" + nextMonth.getMonth();
+		let d = i < 10 ? "0"+i : i;
+		dates.push(nextMonth.getFullYear() + m + d);
 	}
 	
 	let htmlDates = '';
 	for (let i = 0; i < 42; i++) {
-		if (date.getDate() == dates[i] && date.getMonth() == cDate.getMonth() && date.getFullYear() == cDate.getFullYear()) {
-			htmlDates += `<div class="calendalDate today">${dates[i]}</div>`
+		let calendalDay = "";
+		if (dates[i].charAt(6) == "0") calendalDay = dates[i].substring(7);
+		else calendalDay = dates[i].substring(6);
+		if (dateSetting() == dates[i]) {
+			htmlDates += `<div class="calendalDate today" value="${dates[i]}">${calendalDay}</div>`
 		}
 		else {
-			htmlDates += `<div class="calendalDate">${dates[i]}</div>`
+			htmlDates += `<div class="calendalDate" value="${dates[i]}">${calendalDay}</div>`
 		}
 	}
 	
 	document.querySelector(".calendarDates").innerHTML = htmlDates;
+}
+
+function findTodoByCalendal() {
+	let calendal = document.querySelectorAll(".calendalDate");
+	
+	for (let i = 0; i < calendal.length; i++) {
+		calendal[i].addEventListener("click", function() {
+			// CSS 속성 값 변경
+			for (let j = 0; j < calendal.length; j++) {
+				if(calendal[j].getAttribute("class").indexOf("today") > 0) {
+					calendal[j].setAttribute("class", "calendalDate");
+					break;
+				}
+			}
+			this.setAttribute("class", "calendalDate today");
+			// CSS 속성 값 변경 END
+			
+			// 클릭한 날짜로 변경
+			let date = this.getAttribute("value");
+			document.querySelector("#findDate").setAttribute("value", date);
+			
+			// 달력 숨기기
+			document.querySelector("#calendal-span").style.display = "none";
+			
+			findAllTodoList(0);
+			
+		})
+	}
 }
 
 /**
