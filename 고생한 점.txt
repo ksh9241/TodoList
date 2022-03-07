@@ -31,6 +31,14 @@ Ajax 통신 이후 JSON으로 받아오는 과정에서 Serialization (직열화
 
 10. layout decorator 안먹는 문제 -> layout decorate로 변경됨. (검색 오지게 안나오네..)
 
+11. Mockito 사용방법
+@Mock : mock 객체를 만들어 반환
+@InjectMocks : @Mock이나 @Spy객체를 자신의 멤버 클래스와 일치하면 주입
+
+when().thenReturn()[Mockito] 과 given().willReturn() [BDD Mockito]의 차이점
+- Behavior-Driven Development(행위 주도 개발) : Given, When, Then 구조로 테스트 대상이 A 상태에서 출발(Given) 
+하여 어떤 상태 변화를 가했을 때  (When) 기대하는 상태로 완료 되어야 한다 (Then)
+
 -- 할일
 
 고객 조회 시 조회된 고객의 todoList 조회 (완료) ( ★ 이떄 자기자신이 아니면 successYn 버튼 disabled처리 ) 

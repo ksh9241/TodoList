@@ -1,34 +1,53 @@
 package com.toy.todo.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.hamcrest.core.Is.*;
+import static org.mockito.BDDMockito.*;
 
-import java.util.List;
-
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import com.toy.todo.domain.User;
 
-@ExtendWith(SpringExtension.class)
-@AutoConfigureMockMvc
+//@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
-
-	@Autowired
-	UserService userService;
+	
+	@Mock
+	UserRepository userRepository;
+	
+//	@InjectMocks
+//	UserService userService;
+	
+	private User user;
 	
 	@BeforeEach
-	public void setUp() {
-		userService = new UserServiceImpl();
+	void setUp() {
+		user = new User();
+		user.setIdx(999L);
+		user.setUserId("Mockito");
+		user.setUserName("모키토");
+		user.setPassword("1");
+		user.setPhoneNumber("01012341234");
+		user.setCretDt(LocalDateTime.now());
+		user.setAchievementRate(0D);
+		user.setRole("USER");
 	}
 	
+	@DisplayName("유저 회원가입")
 	@Test
-	public void findByUsernameLike () {
-		List<User> users = userService.findByUserNameContaining("ad");
-		assertEquals(users.size(), is(0));
+	public void save() {
+		// given
+		given(userRepository.save(user)).willReturn(user);
+		
+		//when
+		User result = userRepository.save(user);
+		
+		//then
+		assertEquals(user.getUserName(), result.getUserName());
 	}
 }

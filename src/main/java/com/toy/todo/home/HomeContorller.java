@@ -35,7 +35,6 @@ public class HomeContorller {
 		User user = userService.findByUserId(userId);
 		
 		mav.addObject("findUser", user);
-//		mav.setViewName("layout/main_layout");
 		mav.setViewName("main");
 		
 		return mav;

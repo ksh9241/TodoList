@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.toy.todo.domain.TodoList;
 import com.toy.todo.domain.User;
+import com.toy.todo.security.PrincipalDetails;
 import com.toy.todo.user.UserRepository;
 
 @Service
@@ -23,7 +24,9 @@ public class TodoServiceImpl implements TodoService{
 	private UserRepository userRepository;
 	
 	@Override
-	public String save(TodoList todo) {
+	public String save(String todoContent, PrincipalDetails principalDetails) {
+		TodoList todo = setUpSaveData(todoContent, principalDetails);
+		
 		Optional<User> optional = userRepository.findByUserId(todo.getUser().getUserId());
 		User findUser = optional.orElseGet(null);
 		Object result = null;
@@ -34,6 +37,16 @@ public class TodoServiceImpl implements TodoService{
 		}
 		
 		return result != null ? "success" : "failed";
+	}
+	
+	private TodoList setUpSaveData(String todoContent, PrincipalDetails principalDetails) {
+
+		TodoList todo = new TodoList();
+		User user = new User();
+		user.setUserId(principalDetails.getUsername());
+		todo.setTodoContent(todoContent);
+		todo.setUser(user);
+		return todo;
 	}
 
 	@Override
