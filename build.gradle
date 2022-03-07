@@ -27,8 +27,8 @@ dependencies {
 	// MapStruct
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 
-
-	
+	// Gson
+	implementation 'com.google.code.gson:gson:2.8.5'
 	
 	// Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
