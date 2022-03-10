@@ -15,6 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,8 +28,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.toy.todo.domain.User;
 
-@WebMvcTest(controllers = UserController.class)
+//@WebMvcTest(controllers = UserController.class)
 //@AutoConfigureWebMvc // 이 어노테이션을 통해 MockMvc를 Builder 없이 주입받을 수 있음
+@ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
 	@MockBean
 	UserServiceImpl userService;
@@ -60,8 +63,10 @@ public class UserControllerTest {
 	@Test
 	@DisplayName("아이디 중복체크")
 	@Transactional
-	@Disabled
 	public void 아이디중복체크 () throws Exception {
+		final Map<String, Boolean> map = new HashMap<>();
+		map.put("result", true);
+		
 		// given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메서드
 		given(userService.checkUserId(userId)).willReturn(map);
 		
@@ -75,7 +80,6 @@ public class UserControllerTest {
 	
 	@Test
 	@DisplayName("회원가입")
-	@Disabled
 	public void 회원가입() throws Exception {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("msg", "회원가입에 성공하였습니다.");
@@ -84,8 +88,10 @@ public class UserControllerTest {
 		
 		given(userService.save(user)).willReturn(mav);
 		
+		ModelAndView result = userService.save(user);
+		
 		Gson gson = new Gson();
-		String content = gson.toJson(user);
+		String content = gson.toJson(result);
 		
 		mockMvc.perform( post("/join").content(content).contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
